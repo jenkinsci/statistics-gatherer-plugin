@@ -13,10 +13,10 @@ f.section(title:_("Statistics Gatherer")) {
         f.textbox(default: "http://ci.mycompany.com/api/projects")
     }
     f.entry(title:_("BuildSteps URL"), field:"buildStepUrl") {
-        f.textbox(default: "http://ci.mycompany.com/api//step")
+        f.textbox(default: "http://ci.mycompany.com/api/step")
     }
     f.entry(title:_("ScmCheckoutInfo URL"), field:"scmCheckoutUrl") {
-        f.textbox(default: "http://ci.mycompany.com/api//scm")
+        f.textbox(default: "http://ci.mycompany.com/api/scm")
     }
 
     f.entry(title:_("Send Queue Info"), field:"queueInfo") {
@@ -57,8 +57,8 @@ f.section(title:_("Statistics Gatherer")) {
             f.textbox()
         }
 
-        f.entry(title:_("Disable API HTTP requests? (Only use SNS?)"), field:"shouldSendApiHttpRequests") {
-            f.checkbox(default: instance.shouldSendApiHttpRequests == null ? false : instance.shouldSendApiHttpRequests.equals(true));
+        f.entry(title:_("Enable HTTP publishing?"), field:"shouldSendApiHttpRequests") {
+            f.checkbox(default: instance.shouldSendApiHttpRequests == null ? true : instance.shouldSendApiHttpRequests.equals(true));
         }
     }
 }

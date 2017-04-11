@@ -309,7 +309,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     public FormValidation doCheckAwsRegion(
         @QueryParameter("awsRegion") final String awsRegion) {
-        if (shouldPublishToAwsSnsQueue) {
+        if (shouldPublishToAwsSnsQueue == null ||shouldPublishToAwsSnsQueue ) {
             if (awsRegion == null) {
                 return FormValidation.error("AWS Region required. ");
             }
@@ -325,7 +325,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     public FormValidation doCheckSnsTopicArn(
             @QueryParameter("snsTopicArn") final String snsTopicArn) {
-        if (shouldPublishToAwsSnsQueue) {
+        if (shouldPublishToAwsSnsQueue == null ||shouldPublishToAwsSnsQueue ) {
             if (snsTopicArn == null || snsTopicArn.isEmpty()) {
                 return FormValidation.error("SNS ARN required. ");
             }
@@ -336,7 +336,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     public FormValidation doCheckAwsAccessKey(
             @QueryParameter("awsAccessKey") final String awsAccessKey) {
-        if (shouldPublishToAwsSnsQueue) {
+        if (shouldPublishToAwsSnsQueue == null ||shouldPublishToAwsSnsQueue ) {
             if (awsAccessKey == null || awsAccessKey.isEmpty()) {
                 return FormValidation.error("AWS Access Key required. ");
             }
@@ -347,7 +347,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     public FormValidation doCheckAwsSecretKey(
             @QueryParameter("awsSecretKey") final String awsSecretKey) {
-        if (shouldPublishToAwsSnsQueue) {
+        if (shouldPublishToAwsSnsQueue == null ||shouldPublishToAwsSnsQueue ) {
             if (awsSecretKey == null || awsSecretKey.isEmpty()) {
                 return FormValidation.error("AWS Secret Key required. ");
             }

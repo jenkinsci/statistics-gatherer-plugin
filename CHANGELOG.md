@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.1.2 - 2017-04-11
+- Fix NullPointerException for not configured Booleans
+- Fix bad configuration meaning and default values
+
 ## 1.1.1 - 2017-02-15
 - Fix a bug that was preventing an event being send for a build in a pipeline
 
