@@ -27,6 +27,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     private String awsAccessKey;
     private String awsSecretKey;
     private String snsTopicArn;
+    private String logbackConfigXmlUrl;
 
     private Boolean queueInfo;
     private Boolean buildInfo;
@@ -35,6 +36,8 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     private Boolean buildStepInfo;
     private Boolean shouldSendApiHttpRequests;
     private Boolean shouldPublishToAwsSnsQueue;
+
+    private Boolean shouldSendToLogback;
 
     public StatisticsConfiguration() {
         load();
@@ -358,5 +361,21 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     private boolean validateProtocolUsed(String url) {
         return !(url.startsWith("http://") || url.startsWith("https://"));
+    }
+
+    public Boolean getShouldSendToLogback() {
+        return shouldSendToLogback;
+    }
+
+    public void setShouldSendToLogback(Boolean shouldSendToLogback) {
+        this.shouldSendToLogback = shouldSendToLogback;
+    }
+
+    public String getLogbackConfigXmlUrl() {
+        return logbackConfigXmlUrl;
+    }
+
+    public void setLogbackConfigXmlUrl(String logbackConfigXmlUrl) {
+        this.logbackConfigXmlUrl = logbackConfigXmlUrl;
     }
 }

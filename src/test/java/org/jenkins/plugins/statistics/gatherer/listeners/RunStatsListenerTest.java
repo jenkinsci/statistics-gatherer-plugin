@@ -6,8 +6,8 @@ import hudson.model.FreeStyleProject;
 import hudson.model.TaskListener;
 import hudson.model.queue.QueueTaskFuture;
 import hudson.tasks.Shell;
-import jenkins.model.Jenkins;
 import org.jenkins.plugins.statistics.gatherer.model.build.BuildStats;
+import org.jenkins.plugins.statistics.gatherer.util.LogbackUtil;
 import org.jenkins.plugins.statistics.gatherer.util.PropertyLoader;
 import org.jenkins.plugins.statistics.gatherer.util.RestClientUtil;
 import org.junit.Before;
@@ -21,6 +21,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
@@ -32,7 +33,7 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import static org.hamcrest.CoreMatchers.*;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({PropertyLoader.class, RestClientUtil.class})
+@PrepareForTest({PropertyLoader.class, RestClientUtil.class, LogbackUtil.class})
 @PowerMockIgnore({"javax.crypto.*"})
 public class RunStatsListenerTest {
     @Rule
@@ -45,11 +46,11 @@ public class RunStatsListenerTest {
     public void setup() {
         listener = new RunStatsListener();
         mockStatic(PropertyLoader.class);
-        mockStatic(RestClientUtil.class);
     }
 
     @Test
     public void givenRunWithBuildInfoTrue_whenStarted_thenPostTwice() throws Exception {
+        mockStatic(RestClientUtil.class);
         when(PropertyLoader.getBuildInfo()).thenReturn(true);
 
         Build<?, ?> build = triggerNewBuild().get();
@@ -66,6 +67,7 @@ public class RunStatsListenerTest {
 
     @Test
     public void givenRunWithBuildInfoTrue_whenCompleted_thenPost() throws Exception {
+        mockStatic(RestClientUtil.class);
         when(PropertyLoader.getBuildInfo()).thenReturn(true);
 
         Build<?, ?> build = triggerNewBuild().get();
@@ -78,6 +80,23 @@ public class RunStatsListenerTest {
 
         assertThat(buildStats.getResult(), is(equalTo("SUCCESS")));
         assertBuildInfoEqualsTo(buildStats, build);
+    }
+
+    @Test
+    public void givenRunWithBuildInfoTrue_whenStarted_thenSendTwoEventsToLogback() throws Exception {
+        mockStatic(LogbackUtil.class);
+        when(PropertyLoader.getBuildInfo()).thenReturn(true);
+
+        Build<?, ?> build = triggerNewBuild().get();
+
+        verifyStatic(times(2));
+        ArgumentCaptor<BuildStats> captor =
+                ArgumentCaptor.forClass(BuildStats.class);
+        LogbackUtil.info(captor.capture());
+        List<BuildStats> buildStats = captor.getAllValues();
+
+        assertThat(buildStats.get(0).getResult(), is(equalTo("INPROGRESS")));
+        assertThat(buildStats.get(1).getResult(), is(equalTo("SUCCESS")));
     }
 
     private void assertBuildInfoEqualsTo(BuildStats buildStats, Build<?, ?> build) {

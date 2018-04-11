@@ -7,10 +7,7 @@ import hudson.model.User;
 import hudson.model.listeners.ItemListener;
 import jenkins.model.Jenkins;
 import org.jenkins.plugins.statistics.gatherer.model.job.JobStats;
-import org.jenkins.plugins.statistics.gatherer.util.Constants;
-import org.jenkins.plugins.statistics.gatherer.util.PropertyLoader;
-import org.jenkins.plugins.statistics.gatherer.util.RestClientUtil;
-import org.jenkins.plugins.statistics.gatherer.util.SnsClientUtil;
+import org.jenkins.plugins.statistics.gatherer.util.*;
 
 import java.io.IOException;
 import java.util.Date;
@@ -42,6 +39,7 @@ public class ItemStatsListener extends ItemListener {
                 setConfig(project, ciJob);
                 RestClientUtil.postToService(getRestUrl(), ciJob);
                 SnsClientUtil.publishToSns(ciJob);
+                LogbackUtil.info(ciJob);
             } catch (Exception e) {
                 logException(item, e);
             }
@@ -110,6 +108,7 @@ public class ItemStatsListener extends ItemListener {
                 setConfig(project, ciJob);
                 RestClientUtil.postToService(getRestUrl(), ciJob);
                 SnsClientUtil.publishToSns(ciJob);
+                LogbackUtil.info(ciJob);
             } catch (Exception e) {
                 logException(item, e);
             }
@@ -129,6 +128,7 @@ public class ItemStatsListener extends ItemListener {
                 ciJob.setStatus(Constants.DELETED);
                 RestClientUtil.postToService(getRestUrl(), ciJob);
                 SnsClientUtil.publishToSns(ciJob);
+                LogbackUtil.info(ciJob);
             } catch (Exception e) {
                 logException(item, e);
             }
