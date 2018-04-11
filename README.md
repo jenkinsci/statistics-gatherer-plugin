@@ -9,7 +9,7 @@ This plugin gather information on specific events on jenkins and sends them to a
 Issues
 ==========
 
-If you have an issue with this plugin, please open a ticket here: https://issues.jenkins-ci.org under the component `statistics-gatherer-plugin`
+If you have an issue with this plugin, please open a ticket on [issues.jenkins-ci.org](https://issues.jenkins-ci.org/issues/?jql=component%20%3D%20statistics-gatherer-plugin) using `statistics-gatherer-plugin` component.
 
 Documentation
 ==============
