@@ -37,7 +37,8 @@ public class JobStatsTest {
                 UPDATED_DATE,
                 STATUS,
                 CONFIG_FILE,
-                JOB_URL);
+                JOB_URL,
+                JobStats.JobType.PROJECT);
     }
 
     @Test

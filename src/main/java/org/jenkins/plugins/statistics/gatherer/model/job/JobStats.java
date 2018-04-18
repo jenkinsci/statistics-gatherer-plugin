@@ -7,6 +7,10 @@ import java.util.Date;
  */
 public class JobStats {
 
+    public static enum JobType {
+        FOLDER, PROJECT
+    }
+
     private String name;
 
     private Date createdDate;
@@ -25,6 +29,8 @@ public class JobStats {
 
     private String jobUrl;
 
+    private JobType jobType;
+
     public JobStats(String name,
                     Date createdDate,
                     String userId,
@@ -33,7 +39,8 @@ public class JobStats {
                     Date updatedDate,
                     String status,
                     String configFile,
-                    String jobUrl) {
+                    String jobUrl,
+                    JobType jobType) {
         this.name = name;
         this.createdDate = createdDate;
         this.userId = userId;
@@ -43,6 +50,7 @@ public class JobStats {
         this.status = status;
         this.configFile = configFile;
         this.jobUrl = jobUrl;
+        this.jobType = jobType;
     }
 
     public JobStats() {
@@ -127,5 +135,13 @@ public class JobStats {
 
     public void setJobUrl(String jobUrl) {
         this.jobUrl = jobUrl;
+    }
+
+    public JobType getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(JobType jobType) {
+        this.jobType = jobType;
     }
 }

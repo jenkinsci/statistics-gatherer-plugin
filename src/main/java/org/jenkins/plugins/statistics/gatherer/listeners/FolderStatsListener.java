@@ -1,7 +1,7 @@
 package org.jenkins.plugins.statistics.gatherer.listeners;
 
+import com.cloudbees.hudson.plugins.folder.AbstractFolder;
 import hudson.Extension;
-import hudson.model.AbstractProject;
 import hudson.model.Item;
 import hudson.model.User;
 import hudson.model.listeners.ItemListener;
@@ -14,14 +14,11 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by hthakkallapally on 3/12/2015.
- */
 @Extension
-public class ItemStatsListener extends ItemListener {
-    private static final Logger LOGGER = Logger.getLogger(ItemStatsListener.class.getName());
+public class FolderStatsListener extends ItemListener {
+    private static final Logger LOGGER = Logger.getLogger(FolderStatsListener.class.getName());
 
-    public ItemStatsListener() {
+    public FolderStatsListener() {
         //Necessary for jenkins
     }
 
@@ -29,11 +26,11 @@ public class ItemStatsListener extends ItemListener {
     public void onCreated(Item item) {
         if (PropertyLoader.getProjectInfo() && canHandle(item)) {
             try {
-                AbstractProject<?, ?> project = asProject(item);
-                JobStats ciJob = addCIJobData(project);
+                AbstractFolder<?> folder = asFolder(item);
+                JobStats ciJob = addCIJobData(folder);
                 ciJob.setCreatedDate(new Date());
                 ciJob.setStatus(Constants.ACTIVE);
-                setConfig(project, ciJob);
+                setConfig(folder, ciJob);
                 RestClientUtil.postToService(getRestUrl(), ciJob);
                 SnsClientUtil.publishToSns(ciJob);
                 LogbackUtil.info(ciJob);
@@ -43,16 +40,16 @@ public class ItemStatsListener extends ItemListener {
         }
     }
 
-    private AbstractProject<?, ?> asProject(Item item) {
+    private AbstractFolder<?> asFolder(Item item) {
         if(canHandle(item)) {
-            return (AbstractProject<?, ?>) item;
+            return (AbstractFolder<?>) item;
         } else {
-            throw new IllegalArgumentException("Discarding item " + item.getDisplayName() + "/" + item.getClass() + " because it is not an AbstractProject");
+            throw new IllegalArgumentException("Discarding item " + item.getDisplayName() + "/" + item.getClass() + " because it is not an AbstractFolder");
         }
     }
 
     private boolean canHandle(Item item) {
-        return item instanceof AbstractProject<?, ?>;
+        return item instanceof AbstractFolder<?>;
     }
 
     private void logException(Item item, Exception e) {
@@ -75,9 +72,9 @@ public class ItemStatsListener extends ItemListener {
      * @param project
      * @return
      */
-    private JobStats addCIJobData(AbstractProject<?, ?> project) {
+    private JobStats addCIJobData(AbstractFolder<?> project) {
         JobStats ciJob = new JobStats();
-        ciJob.setJobType(JobStats.JobType.PROJECT);
+        ciJob.setJobType(JobStats.JobType.FOLDER);
         ciJob.setCiUrl(Jenkins.getInstance().getRootUrl());
         ciJob.setName(project.getName());
         ciJob.setJobUrl(project.getUrl());
@@ -97,7 +94,7 @@ public class ItemStatsListener extends ItemListener {
      * @param project
      * @param ciJob
      */
-    private void setConfig(AbstractProject<?, ?> project, JobStats ciJob) {
+    private void setConfig(AbstractFolder<?> project, JobStats ciJob) {
         try {
             ciJob.setConfigFile(project.getConfigFile().asString());
         } catch (IOException e) {
@@ -109,11 +106,10 @@ public class ItemStatsListener extends ItemListener {
     @Override
     public void onUpdated(Item item) {
         if (PropertyLoader.getProjectInfo() && canHandle(item)) {
-            AbstractProject<?, ?> project = asProject(item);
+            AbstractFolder<?> project = asFolder(item);
             try {
                 JobStats ciJob = addCIJobData(project);
                 ciJob.setUpdatedDate(new Date());
-                ciJob.setStatus(project.isDisabled() ? Constants.DISABLED : Constants.ACTIVE);
                 setConfig(project, ciJob);
                 RestClientUtil.postToService(getRestUrl(), ciJob);
                 SnsClientUtil.publishToSns(ciJob);
@@ -127,7 +123,7 @@ public class ItemStatsListener extends ItemListener {
     @Override
     public void onDeleted(Item item) {
         if (PropertyLoader.getProjectInfo() && canHandle(item)) {
-            AbstractProject<?, ?> project = asProject(item);
+            AbstractFolder<?> project = asFolder(item);
             try {
                 JobStats ciJob = addCIJobData(project);
                 ciJob.setUpdatedDate(new Date());
