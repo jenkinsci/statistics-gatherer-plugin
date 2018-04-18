@@ -30,12 +30,9 @@ public class ItemStatsListener extends ItemListener {
 
     @Override
     public void onCreated(Item item) {
-        if (PropertyLoader.getProjectInfo()) {
+        if (PropertyLoader.getProjectInfo() && canHandle(item)) {
             try {
-                if (item == null) {
-                    return;
-                }
-                AbstractProject<?, ?> project = (AbstractProject<?, ?>) item;
+                AbstractProject<?, ?> project = asProject(item);
                 JobStats ciJob = addCIJobData(project);
                 ciJob.setCreatedDate(new Date());
                 ciJob.setStatus(Constants.ACTIVE);
@@ -46,6 +43,18 @@ public class ItemStatsListener extends ItemListener {
                 logException(item, e);
             }
         }
+    }
+
+    private AbstractProject<?, ?> asProject(Item item) {
+        if(canHandle(item)) {
+            return (AbstractProject<?, ?>) item;
+        } else {
+            throw new IllegalArgumentException("Discarding item " + item.getDisplayName() + "/" + item.getClass() + " because it is not an AbstractProject");
+        }
+    }
+
+    private boolean canHandle(Item item) {
+        return item instanceof AbstractProject<?, ?>;
     }
 
     private void logException(Item item, Exception e) {
@@ -98,12 +107,9 @@ public class ItemStatsListener extends ItemListener {
 
     @Override
     public void onUpdated(Item item) {
-        if (PropertyLoader.getProjectInfo()) {
-            AbstractProject<?, ?> project = (AbstractProject<?, ?>) item;
+        if (PropertyLoader.getProjectInfo() && canHandle(item)) {
+            AbstractProject<?, ?> project = asProject(item);
             try {
-                if (item == null) {
-                    return;
-                }
                 JobStats ciJob = addCIJobData(project);
                 ciJob.setUpdatedDate(new Date());
                 ciJob.setStatus(project.isDisabled() ? Constants.DISABLED : Constants.ACTIVE);
@@ -118,12 +124,9 @@ public class ItemStatsListener extends ItemListener {
 
     @Override
     public void onDeleted(Item item) {
-        if (PropertyLoader.getProjectInfo()) {
-            AbstractProject<?, ?> project = (AbstractProject<?, ?>) item;
+        if (PropertyLoader.getProjectInfo() && canHandle(item)) {
+            AbstractProject<?, ?> project = asProject(item);
             try {
-                if (item == null) {
-                    return;
-                }
                 JobStats ciJob = addCIJobData(project);
                 ciJob.setUpdatedDate(new Date());
                 ciJob.setStatus(Constants.DELETED);
