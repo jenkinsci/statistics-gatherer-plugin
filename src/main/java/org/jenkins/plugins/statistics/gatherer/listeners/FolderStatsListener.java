@@ -1,32 +1,28 @@
 package org.jenkins.plugins.statistics.gatherer.listeners;
 
+import com.cloudbees.hudson.plugins.folder.AbstractFolder;
 import hudson.Extension;
-import hudson.model.AbstractProject;
 import hudson.model.Item;
 import org.jenkins.plugins.statistics.gatherer.model.job.JobStats;
 import org.jenkins.plugins.statistics.gatherer.util.*;
 
 import java.util.Date;
 
-/**
- * Created by hthakkallapally on 3/12/2015.
- */
 @Extension
-public class ItemStatsListener extends GenericItemStatsListener<AbstractProject<?,?>> {
+public class FolderStatsListener extends GenericItemStatsListener<AbstractFolder<?>> {
 
-    public ItemStatsListener() {
+    public FolderStatsListener() {
         //Necessary for jenkins
-        super(JobStats.JobType.PROJECT);
+        super(JobStats.JobType.FOLDER);
     }
 
     @Override
     public void onUpdated(Item item) {
         if (PropertyLoader.getProjectInfo() && canHandle(item)) {
-            AbstractProject<?,?> project = castItem(item);
+            AbstractFolder<?> project = castItem(item);
             try {
                 JobStats ciJob = addCIJobData(project);
                 ciJob.setUpdatedDate(new Date());
-                ciJob.setStatus(project.isDisabled() ? Constants.DISABLED : Constants.ACTIVE);
                 setConfig(project, ciJob);
                 publishEvent(ciJob);
             } catch (Exception e) {
@@ -37,6 +33,6 @@ public class ItemStatsListener extends GenericItemStatsListener<AbstractProject<
 
     @Override
     protected boolean canHandle(Item item) {
-        return item instanceof AbstractProject<?, ?>;
+        return item instanceof AbstractFolder<?>;
     }
 }

@@ -209,4 +209,21 @@ public class PropertyLoader {
         String shouldPublishToAwsSnsQueueEnv = getEnvironmentProperty("statistics.endpoint.shouldPublishToAwsSnsQueue");
         return "true".equals(shouldPublishToAwsSnsQueueEnv);
     }
+
+    public static boolean getShouldSendToLogback() {
+        Boolean shouldSendToLogback = StatisticsConfiguration.get().getShouldSendToLogback();
+        if (shouldSendToLogback != null) {
+            return shouldSendToLogback;
+        }
+        String shouldSendToLogbackEnv = getEnvironmentProperty("statistics.endpoint.shouldSendToLogback");
+        return "true".equals(shouldSendToLogbackEnv);
+    }
+
+    public static String getLogbackConfigXmlUrl() {
+        String logbackConfigXmlUrlString = StatisticsConfiguration.get().getLogbackConfigXmlUrl();
+        if (logbackConfigXmlUrlString == null) {
+            logbackConfigXmlUrlString = getEnvironmentProperty("statistics.endpoint.logbackConfigXmlUrl");
+        }
+        return logbackConfigXmlUrlString;
+    }
 }

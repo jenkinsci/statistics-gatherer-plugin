@@ -65,6 +65,7 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
                 addSlaveInfo(run, build, listener);
                 RestClientUtil.postToService(getRestUrl(), build);
                 SnsClientUtil.publishToSns(build);
+                LogbackUtil.info(build);
                 LOGGER.log(Level.INFO, "Started build and its status is : " + buildResult +
                         " and start time is : " + run.getTimestamp().getTime());
             } catch (Exception e) {
@@ -222,9 +223,11 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
                 build.setBuildUrl(run.getUrl());
                 build.setDuration(run.getDuration());
                 build.setEndTime(Calendar.getInstance().getTime());
+                addSCMInfo(run, SoutTaskListener.INSTANCE, build);
                 addBuildFailureCauses(build);
                 RestClientUtil.postToService(getRestUrl(), build);
                 SnsClientUtil.publishToSns(build);
+                LogbackUtil.info(build);
                 LOGGER.log(Level.INFO, run.getParent().getName() + " build is completed " +
                         "its status is : " + buildResult +
                         " at time : " + new Date());
@@ -271,6 +274,7 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
             scmCheckoutInfo.setEndTime(new Date(0));
             RestClientUtil.postToService(getScmCheckoutUrl(), scmCheckoutInfo);
             SnsClientUtil.publishToSns(scmCheckoutInfo);
+            LogbackUtil.info(scmCheckoutInfo);
         }
         return super.setUpEnvironment(build, launcher, listener);
 
