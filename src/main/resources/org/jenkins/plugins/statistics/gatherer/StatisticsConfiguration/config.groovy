@@ -4,19 +4,19 @@ def f=namespace(lib.FormTagLib)
 
 f.section(title:_("Statistics Gatherer")) {
     f.entry(title:_("Queue URL"), field:"queueUrl") {
-        f.textbox(default: "http://ci.mycompany.com/api/queue")
+        f.textbox(default: "")
     }
     f.entry(title:_("Build URL"), field:"buildUrl") {
-        f.textbox(default: "http://ci.mycompany.com/api/build")
+        f.textbox(default: "")
     }
     f.entry(title:_("Project URL"), field:"projectUrl") {
-        f.textbox(default: "http://ci.mycompany.com/api/projects")
+        f.textbox(default: "")
     }
     f.entry(title:_("BuildSteps URL"), field:"buildStepUrl") {
-        f.textbox(default: "http://ci.mycompany.com/api/step")
+        f.textbox(default: "")
     }
     f.entry(title:_("ScmCheckoutInfo URL"), field:"scmCheckoutUrl") {
-        f.textbox(default: "http://ci.mycompany.com/api/scm")
+        f.textbox(default: "")
     }
 
     f.entry(title:_("Send Queue Info"), field:"queueInfo") {
