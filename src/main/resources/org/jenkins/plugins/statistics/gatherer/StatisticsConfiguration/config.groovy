@@ -4,19 +4,19 @@ def f=namespace(lib.FormTagLib)
 
 f.section(title:_("Statistics Gatherer")) {
     f.entry(title:_("Queue URL"), field:"queueUrl") {
-        f.textbox(default: "")
+        f.textbox()
     }
     f.entry(title:_("Build URL"), field:"buildUrl") {
-        f.textbox(default: "")
+        f.textbox()
     }
     f.entry(title:_("Project URL"), field:"projectUrl") {
-        f.textbox(default: "")
+        f.textbox()
     }
     f.entry(title:_("BuildSteps URL"), field:"buildStepUrl") {
-        f.textbox(default: "")
+        f.textbox()
     }
     f.entry(title:_("ScmCheckoutInfo URL"), field:"scmCheckoutUrl") {
-        f.textbox(default: "")
+        f.textbox()
     }
 
     f.entry(title:_("Send Queue Info"), field:"queueInfo") {
@@ -58,7 +58,7 @@ f.section(title:_("Statistics Gatherer")) {
         }
 
         f.entry(title:_("Enable HTTP publishing?"), field:"shouldSendApiHttpRequests") {
-            f.checkbox(default: instance.shouldSendApiHttpRequests == null ? true : instance.shouldSendApiHttpRequests.equals(true));
+            f.checkbox(default: instance.shouldSendApiHttpRequests == null ? false : instance.shouldSendApiHttpRequests.equals(true));
         }
     }
 }
