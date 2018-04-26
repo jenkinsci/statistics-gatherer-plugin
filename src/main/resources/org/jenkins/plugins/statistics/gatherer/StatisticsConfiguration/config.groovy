@@ -60,5 +60,13 @@ f.section(title:_("Statistics Gatherer")) {
         f.entry(title:_("Enable HTTP publishing?"), field:"shouldSendApiHttpRequests") {
             f.checkbox(default: instance.shouldSendApiHttpRequests == null ? false : instance.shouldSendApiHttpRequests.equals(true));
         }
+
+        f.entry(title:_("Enable publish of events to LOGBack"), field:"shouldSendToLogback") {
+            f.checkbox(default: false)
+        }
+
+        f.entry(title:_("LOGBack XML configuration URL"), field:"logbackConfigXmlUrl") {
+            f.textbox()
+        }
     }
 }

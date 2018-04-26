@@ -4,6 +4,7 @@ import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.tasks.BuildStep;
 import org.jenkins.plugins.statistics.gatherer.model.step.BuildStepStats;
+import org.jenkins.plugins.statistics.gatherer.util.LogbackUtil;
 import org.jenkins.plugins.statistics.gatherer.util.PropertyLoader;
 import org.jenkins.plugins.statistics.gatherer.util.RestClientUtil;
 import org.jenkins.plugins.statistics.gatherer.util.SnsClientUtil;
@@ -27,7 +28,7 @@ import static org.mockito.Matchers.anyString;
  */
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({PropertyLoader.class, RestClientUtil.class, SnsClientUtil.class})
+@PrepareForTest({PropertyLoader.class, RestClientUtil.class, SnsClientUtil.class, LogbackUtil.class})
 public class BuildStepStatsListenerTest {
 
     private BuildStepStatsListener listener;
@@ -57,7 +58,6 @@ public class BuildStepStatsListenerTest {
         BuildStepStats buildStepStats = buildStepStatsArgumentCaptor.getValue();
         assertEquals("aUrl", buildStepStats.getBuildUrl());
         assertEquals(new Date(0), buildStepStats.getEndTime());
-
     }
 
     @Test
