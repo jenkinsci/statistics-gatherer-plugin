@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.1.3 - 2018-04-26
+
+- Luca Milanesio started as additional maintainer
+- [JENKINS-43440](https://issues.jenkins-ci.org/browse/JENKINS-43440) Support for pipeline jobs
+- Do not send events to HTTP endspoint by default
+- Use blank URLs as defaults for endpoints
+- Fails gracefully when HTTP notification fails
+- docs: corrected link to component bugs
+- add ScmInfo on build completion
+
 ## 1.1.2 - 2017-04-11
 - Fix NullPointerException for not configured Booleans
 - Fix bad configuration meaning and default values
