@@ -5,6 +5,7 @@ import hudson.model.AbstractProject;
 import hudson.model.Item;
 import hudson.model.User;
 import hudson.model.listeners.ItemListener;
+import jenkins.YesNoMaybe;
 import jenkins.model.Jenkins;
 import org.jenkins.plugins.statistics.gatherer.model.job.JobStats;
 import org.jenkins.plugins.statistics.gatherer.util.*;
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
 /**
  * Created by hthakkallapally on 3/12/2015.
  */
-@Extension
+@Extension(dynamicLoadable = YesNoMaybe.YES)
 public class ItemStatsListener extends ItemListener {
     private static final Logger LOGGER = Logger.getLogger(ItemStatsListener.class.getName());
 

@@ -8,6 +8,7 @@ import hudson.model.*;
 import hudson.model.listeners.RunListener;
 import hudson.triggers.SCMTrigger;
 import hudson.triggers.TimerTrigger;
+import jenkins.YesNoMaybe;
 import jenkins.model.Jenkins;
 import org.jenkins.plugins.statistics.gatherer.model.build.BuildStats;
 import org.jenkins.plugins.statistics.gatherer.model.build.SCMInfo;
@@ -27,7 +28,7 @@ import java.util.logging.Logger;
  *
  * @author hthakkallapally
  */
-@Extension
+@Extension(dynamicLoadable = YesNoMaybe.YES)
 public class RunStatsListener extends RunListener<Run<?, ?>> {
 
     private static final Logger LOGGER = Logger.getLogger(RunStatsListener.class.getName());

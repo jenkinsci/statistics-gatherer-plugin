@@ -6,6 +6,7 @@ import hudson.model.Queue.*;
 import hudson.model.queue.QueueListener;
 import hudson.triggers.SCMTrigger;
 import hudson.triggers.TimerTrigger;
+import jenkins.YesNoMaybe;
 import jenkins.model.Jenkins;
 import org.jenkins.plugins.statistics.gatherer.model.queue.QueueCause;
 import org.jenkins.plugins.statistics.gatherer.model.queue.QueueStats;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
 /**
  * Created by hthakkallapally on 3/13/2015.
  */
-@Extension
+@Extension(dynamicLoadable = YesNoMaybe.YES)
 public class QueueStatsListener extends QueueListener {
     private static final Logger LOGGER = Logger.getLogger(
             QueueStatsListener.class.getName());

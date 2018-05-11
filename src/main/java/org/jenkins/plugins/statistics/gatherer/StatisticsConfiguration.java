@@ -3,6 +3,7 @@ package org.jenkins.plugins.statistics.gatherer;
 import com.amazonaws.regions.Region;
 import hudson.Extension;
 import hudson.util.FormValidation;
+import jenkins.YesNoMaybe;
 import jenkins.model.GlobalConfiguration;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.QueryParameter;
@@ -12,7 +13,7 @@ import com.amazonaws.regions.RegionUtils;
 /**
  * Created by hthakkallapally on 6/25/2015.
  */
-@Extension
+@Extension(dynamicLoadable = YesNoMaybe.YES)
 public class StatisticsConfiguration extends GlobalConfiguration {
 
     private static final String SLASH = "/";

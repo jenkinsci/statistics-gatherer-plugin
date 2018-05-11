@@ -5,6 +5,7 @@ import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.model.BuildStepListener;
 import hudson.tasks.BuildStep;
+import jenkins.YesNoMaybe;
 import org.jenkins.plugins.statistics.gatherer.model.step.BuildStepStats;
 import org.jenkins.plugins.statistics.gatherer.util.LogbackUtil;
 import org.jenkins.plugins.statistics.gatherer.util.PropertyLoader;
@@ -16,7 +17,7 @@ import java.util.Date;
 /**
  * Created by mcharron on 2016-07-12.
  */
-@Extension
+@Extension(dynamicLoadable = YesNoMaybe.YES)
 public class BuildStepStatsListener extends BuildStepListener {
 
     @Override
