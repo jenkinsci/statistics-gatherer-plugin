@@ -157,6 +157,13 @@
             <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.sonyericsson.jenkins.plugins.bfa</groupId>
+            <artifactId>build-failure-analyzer</artifactId>
+            <version>1.20.0</version>
+            <type>hpi</type>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
     <build>
