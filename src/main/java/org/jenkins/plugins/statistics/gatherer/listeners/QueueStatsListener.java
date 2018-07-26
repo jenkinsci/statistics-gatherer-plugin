@@ -218,7 +218,9 @@ public class QueueStatsListener extends QueueListener {
                 queue.setExitTime(new Date());
                 queue.setStatus(Constants.LEFT);
                 queue.setDuration(System.currentTimeMillis() - leftItem.getInQueueSince());
-                queue.setContextId(leftItem.outcome.hashCode());
+                if (leftItem.outcome != null) {
+                    queue.setContextId(leftItem.outcome.hashCode());
+                }
                 RestClientUtil.postToService(getRestUrl(), queue);
                 SnsClientUtil.publishToSns(queue);
                 LogbackUtil.info(queue);
