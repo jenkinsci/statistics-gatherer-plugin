@@ -10,11 +10,14 @@ import org.jenkins.plugins.statistics.gatherer.model.build.BuildStats;
 import org.jenkins.plugins.statistics.gatherer.util.LogbackUtil;
 import org.jenkins.plugins.statistics.gatherer.util.PropertyLoader;
 import org.jenkins.plugins.statistics.gatherer.util.RestClientUtil;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.recipes.WithPlugin;
 import org.mockito.ArgumentCaptor;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -50,6 +53,143 @@ public class RunStatsListenerTest {
 
     @Test
     public void givenRunWithBuildInfoTrue_whenStarted_thenPostTwice() throws Exception {
+        mockStatic(RestClientUtil.class);
+        when(PropertyLoader.getBuildInfo()).thenReturn(true);
+
+        Build<?, ?> build = triggerNewBuild().get();
+
+        verifyStatic(times(2));
+        ArgumentCaptor<BuildStats> captor =
+                ArgumentCaptor.forClass(BuildStats.class);
+        RestClientUtil.postToService(anyString(), captor.capture());
+        BuildStats buildStats = captor.getAllValues().get(0);
+
+        assertThat(buildStats.getResult(), is(equalTo("INPROGRESS")));
+        assertBuildInfoEqualsTo(buildStats, build);
+    }
+
+    @Test
+    @WithPlugin({
+            "build-failure-analyzer.hpi",
+            "apache-httpcomponents-client-4-api.hpi",
+            "junit.hpi",
+            "matrix-project.hpi"
+    })
+    public void givenRunWithBuildInfoTrueAndBuildFailureAnalyzer_whenStarted_thenPostTwice() throws Exception {
+        mockStatic(RestClientUtil.class);
+        when(PropertyLoader.getBuildInfo()).thenReturn(true);
+
+        JSONObject buildFailureJson = new JSONObject();
+        JSONObject action = new JSONObject();
+        buildFailureJson.append("actions", action);
+        JSONObject failureCause = new JSONObject();
+        failureCause.append("categories", "my Category");
+        failureCause.put("test", "testvalue");
+        action.append("foundFailureCauses", failureCause);
+        when(RestClientUtil.getJson(anyString())).thenReturn(buildFailureJson);
+
+        Build<?, ?> build = triggerNewBuild().get();
+
+        verifyStatic(times(2));
+        ArgumentCaptor<BuildStats> captor =
+                ArgumentCaptor.forClass(BuildStats.class);
+        RestClientUtil.postToService(anyString(), captor.capture());
+        BuildStats buildStats = captor.getAllValues().get(0);
+
+        assertThat(buildStats.getResult(), is(equalTo("INPROGRESS")));
+        assertBuildInfoEqualsTo(buildStats, build);
+    }
+
+    @Test
+    @WithPlugin({
+            "build-failure-analyzer.hpi",
+            "apache-httpcomponents-client-4-api.hpi",
+            "junit.hpi",
+            "matrix-project.hpi"
+    })
+    public void givenRunWithBuildInfoTrueAndBuildFailureAnalyzerNoActions_whenStarted_thenPostTwice() throws Exception {
+        mockStatic(RestClientUtil.class);
+        when(PropertyLoader.getBuildInfo()).thenReturn(true);
+
+        JSONObject buildFailureJson = new JSONObject();
+        when(RestClientUtil.getJson(anyString())).thenReturn(buildFailureJson);
+
+        Build<?, ?> build = triggerNewBuild().get();
+
+        verifyStatic(times(2));
+        ArgumentCaptor<BuildStats> captor =
+                ArgumentCaptor.forClass(BuildStats.class);
+        RestClientUtil.postToService(anyString(), captor.capture());
+        BuildStats buildStats = captor.getAllValues().get(0);
+
+        assertThat(buildStats.getResult(), is(equalTo("INPROGRESS")));
+        assertBuildInfoEqualsTo(buildStats, build);
+    }
+
+    @Test
+    @WithPlugin({
+            "build-failure-analyzer.hpi",
+            "apache-httpcomponents-client-4-api.hpi",
+            "junit.hpi",
+            "matrix-project.hpi"
+    })
+    public void givenRunWithBuildInfoTrueAndBuildFailureAnalyzerNoFailureResponseKeys_whenStarted_thenPostTwice() throws Exception {
+        mockStatic(RestClientUtil.class);
+        when(PropertyLoader.getBuildInfo()).thenReturn(true);
+
+        JSONObject buildFailureJson = new JSONObject();
+        JSONObject action = new JSONObject();
+        buildFailureJson.append("actions", action);
+        when(RestClientUtil.getJson(anyString())).thenReturn(buildFailureJson);
+
+        Build<?, ?> build = triggerNewBuild().get();
+
+        verifyStatic(times(2));
+        ArgumentCaptor<BuildStats> captor =
+                ArgumentCaptor.forClass(BuildStats.class);
+        RestClientUtil.postToService(anyString(), captor.capture());
+        BuildStats buildStats = captor.getAllValues().get(0);
+
+        assertThat(buildStats.getResult(), is(equalTo("INPROGRESS")));
+        assertBuildInfoEqualsTo(buildStats, build);
+    }
+
+    @Test
+    @WithPlugin({
+            "build-failure-analyzer.hpi",
+            "apache-httpcomponents-client-4-api.hpi",
+            "junit.hpi",
+            "matrix-project.hpi"
+    })
+    public void givenRunWithBuildInfoTrueAndBuildFailureAnalyzerNoFoundFailureCauses_whenStarted_thenPostTwice() throws Exception {
+        mockStatic(RestClientUtil.class);
+        when(PropertyLoader.getBuildInfo()).thenReturn(true);
+
+        JSONObject buildFailureJson = new JSONObject();
+        JSONObject action = new JSONObject();
+        buildFailureJson.append("actions", action);
+        when(RestClientUtil.getJson(anyString())).thenReturn(buildFailureJson);
+
+        Build<?, ?> build = triggerNewBuild().get();
+
+        verifyStatic(times(2));
+        ArgumentCaptor<BuildStats> captor =
+                ArgumentCaptor.forClass(BuildStats.class);
+        RestClientUtil.postToService(anyString(), captor.capture());
+        BuildStats buildStats = captor.getAllValues().get(0);
+
+        assertThat(buildStats.getResult(), is(equalTo("INPROGRESS")));
+        assertBuildInfoEqualsTo(buildStats, build);
+    }
+
+    @Test
+    @WithPlugin({
+            "build-failure-analyzer.hpi",
+            "apache-httpcomponents-client-4-api.hpi",
+            "junit.hpi",
+            "matrix-project.hpi"
+    })
+    public void givenRunWithBuildInfoTrueAndBuildFailureAnalyzerNoResponse_whenStarted_thenPostTwice() throws Exception {
         mockStatic(RestClientUtil.class);
         when(PropertyLoader.getBuildInfo()).thenReturn(true);
 
