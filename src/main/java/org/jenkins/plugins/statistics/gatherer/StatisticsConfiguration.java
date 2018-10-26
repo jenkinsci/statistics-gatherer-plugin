@@ -16,7 +16,6 @@ import com.amazonaws.regions.RegionUtils;
 @Extension(dynamicLoadable = YesNoMaybe.YES)
 public class StatisticsConfiguration extends GlobalConfiguration {
 
-    private static final String SLASH = "/";
     public static final String PROTOCOL_ERROR_MESSAGE = "Only http and https protocols are supported";
 
     private String queueUrl;
@@ -49,12 +48,6 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     }
 
     public String getQueueUrl() {
-        if (queueUrl != null && !queueUrl.isEmpty()) {
-            if (queueUrl.endsWith(SLASH)) {
-                return queueUrl;
-            }
-            return queueUrl + SLASH;
-        }
         return queueUrl;
     }
 
@@ -109,12 +102,6 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     }
 
     public String getBuildUrl() {
-        if (buildUrl != null && !buildUrl.isEmpty()) {
-            if (buildUrl.endsWith(SLASH)) {
-                return buildUrl;
-            }
-            return buildUrl + SLASH;
-        }
         return buildUrl;
     }
 
@@ -124,12 +111,6 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     }
 
     public String getProjectUrl() {
-        if (projectUrl != null && !projectUrl.isEmpty()) {
-            if (projectUrl.endsWith(SLASH)) {
-                return projectUrl;
-            }
-            return projectUrl + SLASH;
-        }
         return projectUrl;
     }
 
@@ -139,12 +120,6 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     }
 
     public String getBuildStepUrl() {
-        if (buildStepUrl != null && !buildStepUrl.isEmpty()) {
-            if (buildStepUrl.endsWith(SLASH)) {
-                return buildStepUrl;
-            }
-            return buildStepUrl + SLASH;
-        }
         return buildStepUrl;
     }
 
@@ -154,12 +129,6 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     }
 
     public String getScmCheckoutUrl() {
-        if (scmCheckoutUrl != null && !scmCheckoutUrl.isEmpty()) {
-            if (scmCheckoutUrl.endsWith(SLASH)) {
-                return scmCheckoutUrl;
-            }
-            return scmCheckoutUrl + SLASH;
-        }
         return scmCheckoutUrl;
     }
 
