@@ -21,10 +21,12 @@ public class SnsClientUtil {
     public static AmazonSNSAsyncClient getSnsClient() {
         if (snsClient == null) {
             BasicAWSCredentials awsCredentials = new BasicAWSCredentials(PropertyLoader.getAwsAccessKey(), PropertyLoader.getAwsSecretKey());
-            snsClient = new AmazonSNSAsyncClient(awsCredentials);
+            AmazonSNSAsyncClient snsClient = new AmazonSNSAsyncClient(awsCredentials);
 
             Region snsRegion = RegionUtils.getRegion(PropertyLoader.getAwsRegion());
             snsClient.setRegion(snsRegion);
+
+            SnsClientUtil.snsClient = snsClient;
         }
 
         return snsClient;
