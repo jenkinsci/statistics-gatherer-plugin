@@ -18,7 +18,7 @@
     <description>Captures Statistics related to Jenkins Builds, Build Step, SCM checkouts, Jobs and Queue and sends them
         where you want.
     </description>
-    <url>https://wiki.jenkins-ci.org/display/JENKINS/Statistics+Gatherer+Plugin</url>
+    <url>https://wiki.jenkins.io/display/JENKINS/Statistics+Gatherer+Plugin</url>
     <licenses>
         <license>
             <name>MIT License</name>
