@@ -206,10 +206,10 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
         }
     }
 
-    @Override
     /**
      * Update the build status and duration.
      */
+    @Override
     public void onFinalized(final Run<?, ?> run) {
         if (PropertyLoader.getBuildInfo()) {
             try {
