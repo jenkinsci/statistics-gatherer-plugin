@@ -183,9 +183,7 @@ public class QueueStatsListener extends QueueListener {
 
     private QueueStats getCiQueue(Item item) {
         QueueStats queue = new QueueStats();
-        String ciUrl = Jenkins.getInstance() != null
-                ? Jenkins.getInstance().getRootUrl()
-                : "";
+        String ciUrl = Jenkins.getInstance().getRootUrl();
         queue.setCiUrl(ciUrl);
         queue.setJobName(item.task.getFullDisplayName());
         queue.setJenkinsQueueId((int) item.getId());
