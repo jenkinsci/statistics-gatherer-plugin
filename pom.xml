@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -8,6 +8,7 @@
         <version>2.7</version>
         <relativePath />
     </parent>
+
     <groupId>org.jenkins.plugins.statistics.gatherer</groupId>
     <artifactId>statistics-gatherer</artifactId>
     <version>2.1-SNAPSHOT</version>
@@ -18,12 +19,12 @@
         where you want.
     </description>
     <url>https://wiki.jenkins-ci.org/display/JENKINS/Statistics+Gatherer+Plugin</url>
-    <scm>
-        <connection>scm:git:ssh://github.com/jenkinsci/statistics-gatherer-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/statistics-gatherer-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/statistics-gatherer-plugin</url>
-      <tag>HEAD</tag>
-  </scm>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
 
     <developers>
         <developer>
@@ -43,29 +44,19 @@
         </developer>
     </developers>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://opensource.org/licenses/MIT</url>
-        </license>
-    </licenses>
-    <repositories>
-        <repository>
-            <id>repo.jenkins-ci.org</id>
-            <url>http://repo.jenkins-ci.org/public/</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>repo.jenkins-ci.org</id>
-            <url>http://repo.jenkins-ci.org/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
+    <scm>
+        <connection>scm:git:ssh://github.com/jenkinsci/statistics-gatherer-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/statistics-gatherer-plugin.git</developerConnection>
+        <url>https://github.com/jenkinsci/statistics-gatherer-plugin</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <properties>
         <jenkins.version>2.60.1</jenkins.version>
         <java.level>8</java.level>
         <powermock.version>1.7.4</powermock.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -123,8 +114,8 @@
         <dependency>
             <groupId>org.jenkins-ci.main</groupId>
             <artifactId>jenkins-war</artifactId>
-            <type>war</type>
             <version>${jenkins.version}</version>
+            <type>war</type>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -157,8 +148,21 @@
             <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <plugins>
             <plugin>
