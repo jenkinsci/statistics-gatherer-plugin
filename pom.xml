@@ -119,7 +119,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Test dependancies -->
+        <!-- Test dependencies -->
         <dependency>
             <groupId>org.jenkins-ci.main</groupId>
             <artifactId>jenkins-war</artifactId>

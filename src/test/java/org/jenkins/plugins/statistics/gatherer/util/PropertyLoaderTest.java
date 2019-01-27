@@ -159,11 +159,11 @@ public class PropertyLoaderTest {
         PowerMockito.mockStatic(Jenkins.class);
         Mockito.when(StatisticsConfiguration.get()).thenReturn(mock(StatisticsConfiguration.class));
         Mockito.when(StatisticsConfiguration.get().getQueueUrl()).thenReturn("");
-        Jenkins jenkinSMock = mock(Jenkins.class);
+        Jenkins jenkinsMock = mock(Jenkins.class);
         DescribableList<NodeProperty<?>, NodePropertyDescriptor> describableList = mock(DescribableList.class);
         Mockito.when(describableList.getAll(EnvironmentVariablesNodeProperty.class)).thenReturn(new ArrayList<EnvironmentVariablesNodeProperty>());
-        Mockito.when(jenkinSMock.getGlobalNodeProperties()).thenReturn(describableList);
-        Mockito.when(Jenkins.getInstance()).thenReturn(jenkinSMock);
+        Mockito.when(jenkinsMock.getGlobalNodeProperties()).thenReturn(describableList);
+        Mockito.when(Jenkins.getInstance()).thenReturn(jenkinsMock);
         //when
         String url = PropertyLoader.getQueueEndPoint();
 
@@ -261,11 +261,11 @@ public class PropertyLoaderTest {
         PowerMockito.mockStatic(Jenkins.class);
         Mockito.when(StatisticsConfiguration.get()).thenReturn(mock(StatisticsConfiguration.class));
         Mockito.when(StatisticsConfiguration.get().getBuildUrl()).thenReturn("");
-        Jenkins jenkinSMock = mock(Jenkins.class);
+        Jenkins jenkinsMock = mock(Jenkins.class);
         DescribableList<NodeProperty<?>, NodePropertyDescriptor> describableList = mock(DescribableList.class);
         Mockito.when(describableList.getAll(EnvironmentVariablesNodeProperty.class)).thenReturn(new ArrayList<EnvironmentVariablesNodeProperty>());
-        Mockito.when(jenkinSMock.getGlobalNodeProperties()).thenReturn(describableList);
-        Mockito.when(Jenkins.getInstance()).thenReturn(jenkinSMock);
+        Mockito.when(jenkinsMock.getGlobalNodeProperties()).thenReturn(describableList);
+        Mockito.when(Jenkins.getInstance()).thenReturn(jenkinsMock);
         //when
         String url = PropertyLoader.getBuildEndPoint();
 
@@ -363,11 +363,11 @@ public class PropertyLoaderTest {
         PowerMockito.mockStatic(Jenkins.class);
         Mockito.when(StatisticsConfiguration.get()).thenReturn(mock(StatisticsConfiguration.class));
         Mockito.when(StatisticsConfiguration.get().getProjectUrl()).thenReturn("");
-        Jenkins jenkinSMock = mock(Jenkins.class);
+        Jenkins jenkinsMock = mock(Jenkins.class);
         DescribableList<NodeProperty<?>, NodePropertyDescriptor> describableList = mock(DescribableList.class);
         Mockito.when(describableList.getAll(EnvironmentVariablesNodeProperty.class)).thenReturn(new ArrayList<EnvironmentVariablesNodeProperty>());
-        Mockito.when(jenkinSMock.getGlobalNodeProperties()).thenReturn(describableList);
-        Mockito.when(Jenkins.getInstance()).thenReturn(jenkinSMock);
+        Mockito.when(jenkinsMock.getGlobalNodeProperties()).thenReturn(describableList);
+        Mockito.when(Jenkins.getInstance()).thenReturn(jenkinsMock);
         //when
         String url = PropertyLoader.getProjectEndPoint();
 
@@ -482,11 +482,11 @@ public class PropertyLoaderTest {
         PowerMockito.mockStatic(Jenkins.class);
         Mockito.when(StatisticsConfiguration.get()).thenReturn(mock(StatisticsConfiguration.class));
         Mockito.when(StatisticsConfiguration.get().getBuildStepUrl()).thenReturn("");
-        Jenkins jenkinSMock = mock(Jenkins.class);
+        Jenkins jenkinsMock = mock(Jenkins.class);
         DescribableList<NodeProperty<?>, NodePropertyDescriptor> describableList = mock(DescribableList.class);
         Mockito.when(describableList.getAll(EnvironmentVariablesNodeProperty.class)).thenReturn(new ArrayList<EnvironmentVariablesNodeProperty>());
-        Mockito.when(jenkinSMock.getGlobalNodeProperties()).thenReturn(describableList);
-        Mockito.when(Jenkins.getInstance()).thenReturn(jenkinSMock);
+        Mockito.when(jenkinsMock.getGlobalNodeProperties()).thenReturn(describableList);
+        Mockito.when(Jenkins.getInstance()).thenReturn(jenkinsMock);
         //when
         String url = PropertyLoader.getBuildStepEndPoint();
 
@@ -583,11 +583,11 @@ public class PropertyLoaderTest {
         PowerMockito.mockStatic(Jenkins.class);
         Mockito.when(StatisticsConfiguration.get()).thenReturn(mock(StatisticsConfiguration.class));
         Mockito.when(StatisticsConfiguration.get().getScmCheckoutUrl()).thenReturn("");
-        Jenkins jenkinSMock = mock(Jenkins.class);
+        Jenkins jenkinsMock = mock(Jenkins.class);
         DescribableList<NodeProperty<?>, NodePropertyDescriptor> describableList = mock(DescribableList.class);
         Mockito.when(describableList.getAll(EnvironmentVariablesNodeProperty.class)).thenReturn(new ArrayList<EnvironmentVariablesNodeProperty>());
-        Mockito.when(jenkinSMock.getGlobalNodeProperties()).thenReturn(describableList);
-        Mockito.when(Jenkins.getInstance()).thenReturn(jenkinSMock);
+        Mockito.when(jenkinsMock.getGlobalNodeProperties()).thenReturn(describableList);
+        Mockito.when(Jenkins.getInstance()).thenReturn(jenkinsMock);
         //when
         String url = PropertyLoader.getScmCheckoutEndPoint();
 
