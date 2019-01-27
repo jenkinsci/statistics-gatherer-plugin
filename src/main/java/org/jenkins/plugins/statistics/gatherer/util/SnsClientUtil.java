@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class SnsClientUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(AmazonSNSAsyncClient.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SnsClientUtil.class.getName());
     private static AmazonSNSAsyncClient snsClient;
 
     public static AmazonSNSAsyncClient getSnsClient() {
