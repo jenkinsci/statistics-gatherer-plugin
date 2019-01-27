@@ -49,7 +49,7 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
                 final String buildResult = run.getResult() == null ?
                         "INPROGRESS" : run.getResult().toString();
                 BuildStats build = new BuildStats();
-                build.setContextId(run.getExecutor().getCurrentWorkUnit().context.hashCode());
+                build.setContextId(run.getExecutor() != null && run.getExecutor().getCurrentWorkUnit() != null ? run.getExecutor().getCurrentWorkUnit().context.hashCode() : 0);
                 build.setStartTime(run.getTimestamp().getTime());
                 build.setCiUrl(Jenkins.getInstance().getRootUrl());
                 build.setJobName(run.getParent().getName());
