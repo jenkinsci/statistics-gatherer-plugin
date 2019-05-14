@@ -1,6 +1,5 @@
 package org.jenkins.plugins.statistics.gatherer.util;
 
-import jenkins.model.Jenkins;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +21,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({PropertyLoader.class})
 public class LogbackFactoryTest extends LogbackAbstractTest {
+
     Path logbackXmlPath;
 
     @Before

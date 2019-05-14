@@ -27,7 +27,7 @@ public class QueueStatsTest {
     private static final String STATUS = "COMPLETED";
     private static final int DURATION = 2000;
     private static final int CONTEXT_ID = 444444444;
-    private static final ArrayList<QueueCause> QUEUE_CAUSES = new ArrayList<QueueCause>();
+    private static final ArrayList<QueueCause> QUEUE_CAUSES = new ArrayList<>();
     private QueueStats queueStats;
 
     @Before
@@ -63,8 +63,8 @@ public class QueueStatsTest {
         //then
         assertEquals("", queueStats.getCiUrl());
         assertEquals("", queueStats.getJobName());
-        Date compareDate =new Date();
-        assertTrue(queueStats.getEntryTime().before(compareDate)|| queueStats.getEntryTime().equals(compareDate));
+        Date compareDate = new Date();
+        assertTrue(queueStats.getEntryTime().before(compareDate) || queueStats.getEntryTime().equals(compareDate));
         assertTrue(queueStats.getExitTime().before(compareDate) || queueStats.getExitTime().equals(compareDate));
         assertEquals("", queueStats.getStartedBy());
         assertEquals(0, queueStats.getJenkinsQueueId());
@@ -177,7 +177,7 @@ public class QueueStatsTest {
     public void givenStatsQueue_whenSetQueueCauses_thenQueueCausesIsSet() {
         //given
         QueueCause queueCause = new QueueCause(ENTRY_TIME, EXIT_TIME, "aReason", "type");
-        List<QueueCause> queueCausesToBeSet = new ArrayList<QueueCause>();
+        List<QueueCause> queueCausesToBeSet = new ArrayList<>();
         queueCausesToBeSet.add(queueCause);
         //when
         queueStats.setQueueCauses(queueCausesToBeSet);
@@ -210,6 +210,7 @@ public class QueueStatsTest {
         Date actualEntryTime = queueStats.getEntryTime();
         assertEquals(expectedEntryTime, actualEntryTime);
     }
+
     @Test
     public void givenStatsQueue_whenSetExitTime_thenExitTimeIsSet() {
         //given
@@ -221,6 +222,7 @@ public class QueueStatsTest {
         Date actualExitTime = queueStats.getExitTime();
         assertEquals(expectedExitTime, actualExitTime);
     }
+
     @Test
     public void givenStatsQueue_whenSetStartedBy_thenStartedByIsSet() {
         //given
@@ -232,6 +234,7 @@ public class QueueStatsTest {
         String actualStartedBy = queueStats.getStartedBy();
         assertEquals(expectedStartedBy, actualStartedBy);
     }
+
     @Test
     public void givenStatsQueue_whenSetJenkinsQueueId_thenJenkinsQueueIdIsSet() {
         //given
@@ -255,6 +258,7 @@ public class QueueStatsTest {
         int actualContextId = queueStats.getContextId();
         assertEquals(expectedContextId, actualContextId);
     }
+
     @Test
     public void givenStatsQueue_whenSetStatus_thenStatusIsSet() {
         //given
@@ -266,6 +270,7 @@ public class QueueStatsTest {
         String actualStatus = queueStats.getStatus();
         assertEquals(expectedStatus, actualStatus);
     }
+
     @Test
     public void givenStatsQueue_whenSetDuration_thenDurationIsSet() {
         //given
@@ -277,6 +282,7 @@ public class QueueStatsTest {
         long actualDuration = queueStats.getDuration();
         assertEquals(expectedDuration, actualDuration);
     }
+
     @Test
     public void givenStatsQueue_whenSetJobName_thenJobNameIsSet() {
         //given
@@ -317,7 +323,7 @@ public class QueueStatsTest {
     public void givenStatsQueue_whenAddQueueCause_thenQueueCauseIsAdded() {
         //given
         QueueCause queueCause = new QueueCause(ENTRY_TIME, EXIT_TIME, "aReason", "type");
-        List<QueueCause> expectedQueueCauses = new ArrayList<QueueCause>();
+        List<QueueCause> expectedQueueCauses = new ArrayList<>();
         expectedQueueCauses.add(queueCause);
         //when
         queueStats.addQueueCause(queueCause);

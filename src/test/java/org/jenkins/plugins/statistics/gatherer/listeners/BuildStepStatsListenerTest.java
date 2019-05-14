@@ -20,8 +20,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyString;
-
+import static org.mockito.ArgumentMatchers.anyString;
 
 /**
  * Created by mcharron on 2016-07-27.
@@ -34,25 +33,24 @@ public class BuildStepStatsListenerTest {
     private BuildStepStatsListener listener;
 
     @Before
-    public void setup(){
+    public void setup() {
         listener = new BuildStepStatsListener();
     }
 
     @Test
-    public void givenBuildAndBuildInfoTrue_whenStarted_thenPost(){
+    public void givenBuildAndBuildInfoTrue_whenStarted_thenPost() {
         PowerMockito.mockStatic(PropertyLoader.class);
         Mockito.when(PropertyLoader.getBuildStepInfo()).thenReturn(true);
-        Mockito.when(PropertyLoader.getBuildEndPoint()).thenReturn("");
+        Mockito.when(PropertyLoader.getBuildStepEndPoint()).thenReturn("http://localhost");
         AbstractBuild build = Mockito.mock(AbstractBuild.class);
         Mockito.when(build.getUrl()).thenReturn("aUrl");
         BuildStep steps = Mockito.mock(BuildStep.class);
         BuildListener buildListener = Mockito.mock(BuildListener.class);
         PowerMockito.mockStatic(RestClientUtil.class);
-        ArgumentCaptor<BuildStepStats> buildStepStatsArgumentCaptor =
-                ArgumentCaptor.forClass(BuildStepStats.class);
+        ArgumentCaptor<BuildStepStats> buildStepStatsArgumentCaptor = ArgumentCaptor.forClass(BuildStepStats.class);
         listener.started(build, steps, buildListener);
 
-        PowerMockito.verifyStatic();
+        PowerMockito.verifyStatic(RestClientUtil.class);
         RestClientUtil.postToService(anyString(), buildStepStatsArgumentCaptor.capture());
 
         BuildStepStats buildStepStats = buildStepStatsArgumentCaptor.getValue();
@@ -61,7 +59,7 @@ public class BuildStepStatsListenerTest {
     }
 
     @Test
-    public void givenBuildAndBuildInfoFalse_whenStarted_thenDoNotPost(){
+    public void givenBuildAndBuildInfoFalse_whenStarted_thenDoNotPost() {
         PowerMockito.mockStatic(PropertyLoader.class);
         Mockito.when(PropertyLoader.getBuildStepInfo()).thenReturn(false);
         AbstractBuild build = Mockito.mock(AbstractBuild.class);
@@ -69,34 +67,32 @@ public class BuildStepStatsListenerTest {
         BuildListener buildListener = Mockito.mock(BuildListener.class);
         listener.started(build, steps, buildListener);
         PowerMockito.mockStatic(RestClientUtil.class);
-        PowerMockito.verifyStatic(Mockito.never());
+        PowerMockito.verifyZeroInteractions(RestClientUtil.class);
     }
 
     @Test
-    public void givenBuildAndBuildInfoTrue_whenFinished_thenPost(){
+    public void givenBuildAndBuildInfoTrue_whenFinished_thenPost() {
         PowerMockito.mockStatic(PropertyLoader.class);
         Mockito.when(PropertyLoader.getBuildStepInfo()).thenReturn(true);
-        Mockito.when(PropertyLoader.getBuildEndPoint()).thenReturn("");
+        Mockito.when(PropertyLoader.getBuildStepEndPoint()).thenReturn("http://localhost");
         AbstractBuild build = Mockito.mock(AbstractBuild.class);
         Mockito.when(build.getUrl()).thenReturn("aUrl");
         BuildStep steps = Mockito.mock(BuildStep.class);
         BuildListener buildListener = Mockito.mock(BuildListener.class);
         PowerMockito.mockStatic(RestClientUtil.class);
-        ArgumentCaptor<BuildStepStats> buildStepStatsArgumentCaptor =
-                ArgumentCaptor.forClass(BuildStepStats.class);
+        ArgumentCaptor<BuildStepStats> buildStepStatsArgumentCaptor = ArgumentCaptor.forClass(BuildStepStats.class);
         listener.finished(build, steps, buildListener, true);
 
-        PowerMockito.verifyStatic();
+        PowerMockito.verifyStatic(RestClientUtil.class);
         RestClientUtil.postToService(anyString(), buildStepStatsArgumentCaptor.capture());
 
         BuildStepStats buildStepStats = buildStepStatsArgumentCaptor.getValue();
         assertEquals("aUrl", buildStepStats.getBuildUrl());
         assertEquals(new Date(0), buildStepStats.getStartTime());
-
     }
 
     @Test
-    public void givenBuildAndBuildInfoTrue_whenFinished_thenPublishToSns(){
+    public void givenBuildAndBuildInfoTrue_whenFinished_thenPublishToSns() {
         PowerMockito.mockStatic(PropertyLoader.class);
         Mockito.when(PropertyLoader.getBuildStepInfo()).thenReturn(true);
         AbstractBuild build = Mockito.mock(AbstractBuild.class);
@@ -104,21 +100,19 @@ public class BuildStepStatsListenerTest {
         BuildStep steps = Mockito.mock(BuildStep.class);
         BuildListener buildListener = Mockito.mock(BuildListener.class);
         PowerMockito.mockStatic(SnsClientUtil.class);
-        ArgumentCaptor<BuildStepStats> buildStepStatsArgumentCaptor =
-                ArgumentCaptor.forClass(BuildStepStats.class);
+        ArgumentCaptor<BuildStepStats> buildStepStatsArgumentCaptor = ArgumentCaptor.forClass(BuildStepStats.class);
         listener.finished(build, steps, buildListener, true);
 
-        PowerMockito.verifyStatic();
+        PowerMockito.verifyStatic(SnsClientUtil.class);
         SnsClientUtil.publishToSns(buildStepStatsArgumentCaptor.capture());
 
         BuildStepStats buildStepStats = buildStepStatsArgumentCaptor.getValue();
         assertEquals("aUrl", buildStepStats.getBuildUrl());
         assertEquals(new Date(0), buildStepStats.getStartTime());
-
     }
 
     @Test
-    public void givenBuildAndBuildInfoFalse_whenFinished_thenDoNotPost(){
+    public void givenBuildAndBuildInfoFalse_whenFinished_thenDoNotPost() {
         PowerMockito.mockStatic(PropertyLoader.class);
         Mockito.when(PropertyLoader.getBuildStepInfo()).thenReturn(false);
         AbstractBuild build = Mockito.mock(AbstractBuild.class);
@@ -126,6 +120,6 @@ public class BuildStepStatsListenerTest {
         BuildListener buildListener = Mockito.mock(BuildListener.class);
         listener.finished(build, steps, buildListener, true);
         PowerMockito.mockStatic(RestClientUtil.class);
-        PowerMockito.verifyStatic(Mockito.never());
+        PowerMockito.verifyZeroInteractions(RestClientUtil.class);
     }
 }

@@ -7,8 +7,8 @@ import org.junit.Test;
  */
 public class ConstantsTest {
 
-    @Test(expected=IllegalAccessError.class)
-    public void givenProtectedConstructor_whenNew_throwIllegalAccess(){
+    @Test(expected = IllegalAccessError.class)
+    public void givenProtectedConstructor_whenNew_throwIllegalAccess() {
         new Constants();
     }
 }

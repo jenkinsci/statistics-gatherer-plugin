@@ -13,7 +13,6 @@ public interface Logback {
      */
     Logback setLoggerName(String loggerName);
 
-
     /**
      * Get the current LOGBack logger name
      *
@@ -34,12 +33,12 @@ public interface Logback {
      * @return true if the configuration has been reloaded
      * @throws Exception if the configuration refresh failed
      */
-    public boolean refresh() throws Exception;
+    boolean refresh() throws Exception;
 
     /**
      * Return the SHA of the latest LOGBack configuration loaded.
      *
      * @return the URLSha of the last loaded configuration
      */
-    public URLSha getLastSha();
+    URLSha getLastSha();
 }

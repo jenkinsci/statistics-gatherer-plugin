@@ -52,14 +52,13 @@ public class RestClientUtil {
     }
 
     public static JSONObject getJson(final String url) {
-        try{
+        try {
             HttpResponse<JsonNode> response = Unirest.get(url)
-                .header(ACCEPT, APPLICATION_JSON)
-                .header(CONTENT_TYPE, APPLICATION_JSON)
-                .asJson();
+                    .header(ACCEPT, APPLICATION_JSON)
+                    .header(CONTENT_TYPE, APPLICATION_JSON)
+                    .asJson();
             return response.getBody().getObject();
-        }
-        catch (UnirestException e){
+        } catch (UnirestException e) {
             LOGGER.log(Level.WARNING, "Json call have failed in unirest.", e);
         }
         return null;

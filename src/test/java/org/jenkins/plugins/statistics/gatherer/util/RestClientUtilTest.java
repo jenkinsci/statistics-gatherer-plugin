@@ -7,10 +7,8 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.io.IOException;
-
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -30,7 +28,7 @@ public class RestClientUtilTest {
         when(PropertyLoader.getShouldSendApiHttpRequests()).thenReturn(true);
 
         try {
-            RestClientUtil.postToService("http://foo", new String("bar"));
+            RestClientUtil.postToService("http://foo", "bar");
         } catch (Throwable e) {
             fail("Should not have thrown any exception here");
         }

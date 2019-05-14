@@ -46,10 +46,9 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
     public void onStarted(Run<?, ?> run, TaskListener listener) {
         if (PropertyLoader.getBuildInfo()) {
             try {
-                final String buildResult = run.getResult() == null ?
-                        "INPROGRESS" : run.getResult().toString();
+                final String buildResult = run.getResult() == null ? "INPROGRESS" : run.getResult().toString();
                 BuildStats build = new BuildStats();
-                build.setContextId(run.getExecutor().getCurrentWorkUnit().context.hashCode());
+                build.setContextId(run.getExecutor() != null && run.getExecutor().getCurrentWorkUnit() != null ? run.getExecutor().getCurrentWorkUnit().context.hashCode() : 0);
                 build.setStartTime(run.getTimestamp().getTime());
                 build.setCiUrl(Jenkins.getInstance().getRootUrl());
                 build.setJobName(run.getParent().getName());
@@ -57,8 +56,7 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
                 build.setNumber(run.getNumber());
                 build.setResult(buildResult);
                 build.setBuildUrl(run.getUrl());
-                build.setQueueTime(run.getExecutor() != null ?
-                        run.getExecutor().getTimeSpentInQueue() : 0);
+                build.setQueueTime(run.getExecutor() != null ? run.getExecutor().getTimeSpentInQueue() : 0);
                 build.setBuildCause(run.getCauses().get(0).getShortDescription());
                 addUserDetails(run, build);
                 addSCMInfo(run, listener, build);
@@ -113,11 +111,9 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
         try {
             environment = run.getEnvironment(listener);
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "Failed to retrieve environment" +
-                    " for " + run.getUrl(), e);
+            LOGGER.log(Level.WARNING, "Failed to retrieve environment for " + run.getUrl(), e);
         } catch (InterruptedException e) {
-            LOGGER.log(Level.WARNING, "Failed to retrieve environment" +
-                    " for " + run.getUrl(), e);
+            LOGGER.log(Level.WARNING, "Failed to retrieve environment for " + run.getUrl(), e);
             throw e;
         }
         return environment;
@@ -149,8 +145,7 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
      * @param listener
      * @param build
      */
-    private void addSCMInfo(Run<?, ?> run, TaskListener listener,
-                            BuildStats build) throws InterruptedException {
+    private void addSCMInfo(Run<?, ?> run, TaskListener listener, BuildStats build) throws InterruptedException {
         EnvVars environment = getEnvVars(run, listener);
         SCMInfo scmInfo = new SCMInfo();
         if (environment != null) {
@@ -187,8 +182,7 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
                 userId = (userId == null || userId.isEmpty()) ? Constants.ANONYMOUS : userId;
                 build.setStartedUserId(userId);
                 String userName = ((Cause.UserIdCause) cause).getUserName();
-                userName = (userName == null || userName.isEmpty()) ?
-                        Constants.ANONYMOUS : userName;
+                userName = (userName == null || userName.isEmpty()) ? Constants.ANONYMOUS : userName;
                 build.setStartedUserName(userName);
             } else if (cause instanceof Cause.UpstreamCause) {
                 build.setStartedUserId(JenkinsCauses.UPSTREAM);
@@ -206,15 +200,14 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
         }
     }
 
-    @Override
     /**
      * Update the build status and duration.
      */
+    @Override
     public void onFinalized(final Run<?, ?> run) {
         if (PropertyLoader.getBuildInfo()) {
             try {
-                final String buildResult = run.getResult() == null ?
-                        Constants.UNKNOWN : run.getResult().toString();
+                final String buildResult = run.getResult() == null ? Constants.UNKNOWN : run.getResult().toString();
                 BuildStats build = new BuildStats();
                 build.setCiUrl(Jenkins.getInstance().getRootUrl());
                 build.setJobName(run.getParent().getName());

@@ -23,11 +23,11 @@ import java.util.Date;
  * Created by mcharron on 2016-07-15.
  */
 @Extension(dynamicLoadable = YesNoMaybe.YES)
-public class ScmStatsListener extends SCMListener{
+public class ScmStatsListener extends SCMListener {
 
     @Override
-    public void onCheckout(Run<?,?> run, SCM scm, FilePath workspace, TaskListener listener, File changelogFile, SCMRevisionState pollingBaseline){
-        if (PropertyLoader.getScmCheckoutInfo()){
+    public void onCheckout(Run<?, ?> run, SCM scm, FilePath workspace, TaskListener listener, File changelogFile, SCMRevisionState pollingBaseline) {
+        if (PropertyLoader.getScmCheckoutInfo()) {
             if (!(run instanceof AbstractBuild)) {
                 return;
             }
@@ -41,7 +41,7 @@ public class ScmStatsListener extends SCMListener{
         }
     }
 
-    private String getUrl(){
+    private String getUrl() {
         return PropertyLoader.getScmCheckoutEndPoint();
     }
 }

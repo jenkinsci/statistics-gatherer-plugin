@@ -6,14 +6,10 @@ package org.jenkins.plugins.statistics.gatherer.model.build;
 public class SlaveInfo {
 
     private String slaveName;
-
     private String executor;
-
     private String label;
 
-    public SlaveInfo(String slaveName,
-                     String executor,
-                     String label) {
+    public SlaveInfo(String slaveName, String executor, String label) {
         this.slaveName = slaveName;
         this.executor = executor;
         this.label = label;
@@ -48,5 +44,4 @@ public class SlaveInfo {
     public void setLabel(String label) {
         this.label = label;
     }
-
 }

@@ -20,6 +20,7 @@ import java.util.logging.Logger;
  */
 @Extension(dynamicLoadable = YesNoMaybe.YES)
 public class ItemStatsListener extends ItemListener {
+
     private static final Logger LOGGER = Logger.getLogger(ItemStatsListener.class.getName());
 
     public ItemStatsListener() {
@@ -45,7 +46,7 @@ public class ItemStatsListener extends ItemListener {
     }
 
     private AbstractProject<?, ?> asProject(Item item) {
-        if(canHandle(item)) {
+        if (canHandle(item)) {
             return (AbstractProject<?, ?>) item;
         } else {
             throw new IllegalArgumentException("Discarding item " + item.getDisplayName() + "/" + item.getClass() + " because it is not an AbstractProject");
@@ -83,7 +84,7 @@ public class ItemStatsListener extends ItemListener {
         ciJob.setJobUrl(project.getUrl());
         String userName = Jenkins.getAuthentication().getName();
         User user = Jenkins.getInstance().getUser(userName);
-        if(user != null) {
+        if (user != null) {
             ciJob.setUserId(user.getId());
             ciJob.setUserName(user.getFullName());
         }

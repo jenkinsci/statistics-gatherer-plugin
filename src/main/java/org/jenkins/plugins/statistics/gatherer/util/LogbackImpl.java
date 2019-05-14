@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class LogbackImpl implements Logback {
+
     private Logger logger;
     private URLSha loggerSha;
     private String loggerName;
@@ -37,11 +38,6 @@ public class LogbackImpl implements Logback {
 
     public URLSha getLastSha() {
         return loggerSha;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 
     private void initLogger(URL configurationUrl, String loggerName) throws JoranException, IOException {

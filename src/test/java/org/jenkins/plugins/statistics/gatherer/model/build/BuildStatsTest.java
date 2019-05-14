@@ -59,13 +59,13 @@ public class BuildStatsTest {
     }
 
     @Test
-    public void givenNothing_whenConstruct_thenValuesAreSet(){
+    public void givenNothing_whenConstruct_thenValuesAreSet() {
         //when
         BuildStats buildStats = new BuildStats();
         //then
-        Date compareDate =new Date();
-        assertTrue(buildStats.getStartTime().before(compareDate)|| buildStats.getStartTime().equals(compareDate));
-        assertTrue(buildStats.getEndTime().before(compareDate)|| buildStats.getEndTime().equals(compareDate));
+        Date compareDate = new Date();
+        assertTrue(buildStats.getStartTime().before(compareDate) || buildStats.getStartTime().equals(compareDate));
+        assertTrue(buildStats.getEndTime().before(compareDate) || buildStats.getEndTime().equals(compareDate));
         assertEquals("", buildStats.getCiUrl());
         assertEquals("", buildStats.getJobName());
         assertEquals("", buildStats.getFullJobName());
@@ -75,7 +75,7 @@ public class BuildStatsTest {
         assertEquals("", buildStats.getStartedUserName());
         assertEquals("", buildStats.getResult());
         assertEquals(0, buildStats.getDuration());
-        assertEquals(new HashMap<String,String>(), buildStats.getParameters());
+        assertEquals(new HashMap<String, String>(), buildStats.getParameters());
         assertEquals("", buildStats.getScmInfo().getUrl());
         assertEquals(0, buildStats.getQueueTime());
         assertEquals("", buildStats.getBuildUrl());
@@ -411,7 +411,7 @@ public class BuildStatsTest {
         //given
 
         //when
-        Map<String, String>  Parameters = buildStats.getParameters();
+        Map<String, String> Parameters = buildStats.getParameters();
 
         //then
         assertEquals(PARAMETERS, Parameters);
@@ -420,7 +420,7 @@ public class BuildStatsTest {
     @Test
     public void givenStatsBuild_whenSetParameters_thenParametersIsSet() {
         //given
-        Map<String, String>  expectedParameters = new HashMap<String, String>();
+        Map<String, String> expectedParameters = new HashMap<>();
         expectedParameters.put("aKey", "something");
         //when
         buildStats.setParameters(expectedParameters);

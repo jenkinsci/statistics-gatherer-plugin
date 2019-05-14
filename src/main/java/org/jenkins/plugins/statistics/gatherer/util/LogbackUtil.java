@@ -1,12 +1,12 @@
 package org.jenkins.plugins.statistics.gatherer.util;
 
 import jenkins.model.Jenkins;
-import jline.internal.Log;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LogbackUtil {
+
     public static final String STATISTICS_GATHERER_LOGGER = "statistics-gatherer";
     public static final String LOGBACK_PLUGIN_NAME = "logback-nats-appender";
     public static final LogbackUtil INSTANCE = new LogbackUtil();

@@ -27,8 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.isNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -39,6 +38,7 @@ import static org.hamcrest.CoreMatchers.*;
 @PrepareForTest({PropertyLoader.class, RestClientUtil.class, LogbackUtil.class})
 @PowerMockIgnore({"javax.crypto.*"})
 public class RunStatsListenerTest {
+
     @Rule
     public JenkinsRule j = new JenkinsRule();
 
@@ -55,12 +55,12 @@ public class RunStatsListenerTest {
     public void givenRunWithBuildInfoTrue_whenStarted_thenPostTwice() throws Exception {
         mockStatic(RestClientUtil.class);
         when(PropertyLoader.getBuildInfo()).thenReturn(true);
+        when(PropertyLoader.getBuildEndPoint()).thenReturn("http://localhost");
 
         Build<?, ?> build = triggerNewBuild().get();
 
-        verifyStatic(times(2));
-        ArgumentCaptor<BuildStats> captor =
-                ArgumentCaptor.forClass(BuildStats.class);
+        verifyStatic(RestClientUtil.class, times(2));
+        ArgumentCaptor<BuildStats> captor = ArgumentCaptor.forClass(BuildStats.class);
         RestClientUtil.postToService(anyString(), captor.capture());
         BuildStats buildStats = captor.getAllValues().get(0);
 
@@ -209,12 +209,12 @@ public class RunStatsListenerTest {
     public void givenRunWithBuildInfoTrue_whenCompleted_thenPost() throws Exception {
         mockStatic(RestClientUtil.class);
         when(PropertyLoader.getBuildInfo()).thenReturn(true);
+        when(PropertyLoader.getBuildEndPoint()).thenReturn("http://localhost");
 
         Build<?, ?> build = triggerNewBuild().get();
 
-        verifyStatic(times(2));
-        ArgumentCaptor<BuildStats> captor =
-                ArgumentCaptor.forClass(BuildStats.class);
+        verifyStatic(RestClientUtil.class, times(2));
+        ArgumentCaptor<BuildStats> captor = ArgumentCaptor.forClass(BuildStats.class);
         RestClientUtil.postToService(anyString(), captor.capture());
         BuildStats buildStats = captor.getAllValues().get(1);
 
@@ -229,9 +229,8 @@ public class RunStatsListenerTest {
 
         Build<?, ?> build = triggerNewBuild().get();
 
-        verifyStatic(times(2));
-        ArgumentCaptor<BuildStats> captor =
-                ArgumentCaptor.forClass(BuildStats.class);
+        verifyStatic(LogbackUtil.class, times(2));
+        ArgumentCaptor<BuildStats> captor = ArgumentCaptor.forClass(BuildStats.class);
         LogbackUtil.info(captor.capture());
         List<BuildStats> buildStats = captor.getAllValues();
 

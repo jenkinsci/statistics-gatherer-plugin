@@ -15,7 +15,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class JobStatsTest {
 
-
     private static final String NAME = "Job";
     private static final String USER_ID = "user";
     private static final String USERNAME = "username";
@@ -41,17 +40,17 @@ public class JobStatsTest {
     }
 
     @Test
-    public void givenNothing_whenConstruct_thenValuesAreSet(){
+    public void givenNothing_whenConstruct_thenValuesAreSet() {
         //when
         JobStats jobStats = new JobStats();
         //then
-        Date compareDate =new Date();
+        Date compareDate = new Date();
         assertEquals("", jobStats.getName());
-        assertTrue(jobStats.getCreatedDate().before(compareDate)|| jobStats.getCreatedDate().equals(compareDate));
+        assertTrue(jobStats.getCreatedDate().before(compareDate) || jobStats.getCreatedDate().equals(compareDate));
         assertEquals("", jobStats.getUserId());
         assertEquals("", jobStats.getUserName());
         assertEquals("", jobStats.getCiUrl());
-        assertTrue(jobStats.getUpdatedDate().before(compareDate)|| jobStats.getUpdatedDate().equals(compareDate));
+        assertTrue(jobStats.getUpdatedDate().before(compareDate) || jobStats.getUpdatedDate().equals(compareDate));
         assertEquals("", jobStats.getStatus());
         assertEquals("", jobStats.getConfigFile());
         assertEquals("", jobStats.getJobUrl());

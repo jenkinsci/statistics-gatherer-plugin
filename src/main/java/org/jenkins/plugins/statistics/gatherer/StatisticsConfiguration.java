@@ -189,7 +189,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
             @QueryParameter("buildUrl") final String buildUrl) {
         if (buildUrl == null || buildUrl.isEmpty()) {
             return FormValidation.error("Provide valid Build URL. " +
-                    "For ex: \"http://ci.mycompany.com/api/builds\"");
+                    "For example: \"http://cistats.mycompany.com/api/build\"");
         }
         if (validateProtocolUsed(buildUrl))
             return FormValidation.error(PROTOCOL_ERROR_MESSAGE);
@@ -200,7 +200,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
             @QueryParameter("queueUrl") final String queueUrl) {
         if (queueUrl == null || queueUrl.isEmpty()) {
             return FormValidation.error("Provide valid Queue URL. " +
-                    "For ex: \"http://ci.mycompany.com/api/queues\"");
+                    "For example: \"http://cistats.mycompany.com/api/queue\"");
         }
         if (validateProtocolUsed(queueUrl))
             return FormValidation.error(PROTOCOL_ERROR_MESSAGE);
@@ -211,7 +211,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
             @QueryParameter("projectUrl") final String projectUrl) {
         if (projectUrl == null || projectUrl.isEmpty()) {
             return FormValidation.error("Provide valid Project URL. " +
-                    "For ex: \"http://ci.mycompany.com/api/\"");
+                    "For example: \"http://cistats.mycompany.com/api/project\"");
         }
         if (validateProtocolUsed(projectUrl))
             return FormValidation.error(PROTOCOL_ERROR_MESSAGE);
@@ -221,8 +221,8 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     public FormValidation doCheckBuildStepUrl(
             @QueryParameter("buildStepUrl") final String buildStepUrl) {
         if (buildStepUrl == null || buildStepUrl.isEmpty()) {
-            return FormValidation.error("Provide valid BuildStep URL. " +
-                    "For ex: \"http://ci.mycompany.com/api/steps\"");
+            return FormValidation.error("Provide valid Build Step URL. " +
+                    "For example: \"http://cistats.mycompany.com/api/step\"");
         }
         if (validateProtocolUsed(buildStepUrl))
             return FormValidation.error(PROTOCOL_ERROR_MESSAGE);
@@ -232,8 +232,8 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     public FormValidation doCheckScmCheckoutUrl(
             @QueryParameter("scmCheckoutUrl") final String scmCheckoutUrl) {
         if (scmCheckoutUrl == null || scmCheckoutUrl.isEmpty()) {
-            return FormValidation.error("Provide valid BuildStep URL. " +
-                    "For ex: \"http://ci.mycompany.com/api/checkout\"");
+            return FormValidation.error("Provide valid SCM Checkout URL. " +
+                    "For example: \"http://cistats.mycompany.com/api/scm\"");
         }
         if (validateProtocolUsed(scmCheckoutUrl))
             return FormValidation.error(PROTOCOL_ERROR_MESSAGE);
@@ -267,7 +267,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     public FormValidation doCheckBuildStepInfo(
             @QueryParameter("buildStepInfo") final Boolean buildStepInfo) {
         if (buildStepInfo == null) {
-            return FormValidation.error("Provide valid BuildStepInfo. ");
+            return FormValidation.error("Provide valid Build Step Info. ");
         }
         return FormValidation.ok();
     }
@@ -275,14 +275,14 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     public FormValidation doCheckScmCheckoutInfo(
             @QueryParameter("scmCheckoutInfo") final Boolean scmCheckoutInfo) {
         if (scmCheckoutInfo == null) {
-            return FormValidation.error("Provide valid CcmCheckoutInfo. ");
+            return FormValidation.error("Provide valid SCM Checkout Info. ");
         }
         return FormValidation.ok();
     }
 
     public FormValidation doCheckAwsRegion(
-        @QueryParameter("awsRegion") final String awsRegion) {
-        if (shouldPublishToAwsSnsQueue == null ||shouldPublishToAwsSnsQueue ) {
+            @QueryParameter("awsRegion") final String awsRegion) {
+        if (shouldPublishToAwsSnsQueue == null || shouldPublishToAwsSnsQueue) {
             if (awsRegion == null) {
                 return FormValidation.error("AWS Region required. ");
             }
@@ -298,7 +298,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     public FormValidation doCheckSnsTopicArn(
             @QueryParameter("snsTopicArn") final String snsTopicArn) {
-        if (shouldPublishToAwsSnsQueue == null ||shouldPublishToAwsSnsQueue ) {
+        if (shouldPublishToAwsSnsQueue == null || shouldPublishToAwsSnsQueue) {
             if (snsTopicArn == null || snsTopicArn.isEmpty()) {
                 return FormValidation.error("SNS ARN required. ");
             }
@@ -309,7 +309,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     public FormValidation doCheckAwsAccessKey(
             @QueryParameter("awsAccessKey") final String awsAccessKey) {
-        if (shouldPublishToAwsSnsQueue == null ||shouldPublishToAwsSnsQueue ) {
+        if (shouldPublishToAwsSnsQueue == null || shouldPublishToAwsSnsQueue) {
             if (awsAccessKey == null || awsAccessKey.isEmpty()) {
                 return FormValidation.error("AWS Access Key required. ");
             }
@@ -320,7 +320,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     public FormValidation doCheckAwsSecretKey(
             @QueryParameter("awsSecretKey") final String awsSecretKey) {
-        if (shouldPublishToAwsSnsQueue == null ||shouldPublishToAwsSnsQueue ) {
+        if (shouldPublishToAwsSnsQueue == null || shouldPublishToAwsSnsQueue) {
             if (awsSecretKey == null || awsSecretKey.isEmpty()) {
                 return FormValidation.error("AWS Secret Key required. ");
             }

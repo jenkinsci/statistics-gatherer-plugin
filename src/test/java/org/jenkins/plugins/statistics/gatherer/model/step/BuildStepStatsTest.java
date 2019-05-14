@@ -27,7 +27,7 @@ public class BuildStepStatsTest {
     }
 
     @Test
-    public void givenNothing_whenCreateBuildStepStats_thenItIsInitialized(){
+    public void givenNothing_whenCreateBuildStepStats_thenItIsInitialized() {
         BuildStepStats buildStep = new BuildStepStats();
         assertEquals("", buildStep.getBuildUrl());
         assertEquals("", buildStep.getBuildStepType());

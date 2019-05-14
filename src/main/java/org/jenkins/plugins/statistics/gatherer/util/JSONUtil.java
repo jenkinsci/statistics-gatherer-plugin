@@ -14,8 +14,8 @@ import java.util.logging.Logger;
  */
 public class JSONUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(
-            RestClientUtil.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(JSONUtil.class.getName());
+
     protected JSONUtil() {
         throw new IllegalAccessError("Utility class");
     }
@@ -32,13 +32,13 @@ public class JSONUtil {
         return convertedJson;
     }
 
-    public static Map<String, Object> convertBuildFailureToMap(JSONObject jObject){
+    public static Map<String, Object> convertBuildFailureToMap(JSONObject jObject) {
         Map<String, Object> map = new HashMap<>();
         Iterator<?> keys = jObject.keys();
 
-        while( keys.hasNext() ){
-            String key = (String)keys.next();
-            if ("categories".equals(key)){
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            if ("categories".equals(key)) {
                 List<String> value = convertJsonArrayToList(jObject.getJSONArray(key));
                 map.put(key, value);
             } else {
@@ -49,10 +49,10 @@ public class JSONUtil {
         return map;
     }
 
-    public static List<String> convertJsonArrayToList(JSONArray jsonArray){
+    public static List<String> convertJsonArrayToList(JSONArray jsonArray) {
         List<String> listdata = new ArrayList<>();
         if (jsonArray != null) {
-            for (int i=0;i<jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 listdata.add(jsonArray.get(i).toString());
             }
         }

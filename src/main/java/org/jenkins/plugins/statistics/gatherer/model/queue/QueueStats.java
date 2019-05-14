@@ -10,24 +10,15 @@ import java.util.List;
 public class QueueStats {
 
     private String ciUrl;
-
     private String jobName;
-
     private Date entryTime;
-
     private Date exitTime;
-
     private String startedBy;
-
     private int jenkinsQueueId;
-
     private String status;
-
     private int contextId;
-
     private long duration;
-
-    private List<QueueCause> queueCauses = new ArrayList<>();
+    private List<QueueCause> queueCauses;
 
     public QueueStats(String ciUrl,
                       String jobName,
@@ -63,7 +54,6 @@ public class QueueStats {
         this.queueCauses = new ArrayList<>();
         this.contextId = 0;
     }
-
 
     public String getCiUrl() {
         return ciUrl;

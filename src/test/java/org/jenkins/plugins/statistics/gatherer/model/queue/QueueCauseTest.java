@@ -29,13 +29,13 @@ public class QueueCauseTest {
     }
 
     @Test
-    public void givenNothing_whenConstruct_thenValuesAreSet(){
+    public void givenNothing_whenConstruct_thenValuesAreSet() {
         //when
         QueueCause queueCause = new QueueCause();
         //then
-        Date compareDate =new Date();
-        assertTrue(queueCause.getEntryTime().before(compareDate)|| queueCause.getEntryTime().equals(compareDate));
-        assertTrue(queueCause.getExitTime().before(compareDate)|| queueCause.getExitTime().equals(compareDate));
+        Date compareDate = new Date();
+        assertTrue(queueCause.getEntryTime().before(compareDate) || queueCause.getEntryTime().equals(compareDate));
+        assertTrue(queueCause.getExitTime().before(compareDate) || queueCause.getExitTime().equals(compareDate));
         assertEquals("", queueCause.getReasonForWaiting());
         assertEquals("", queueCause.getType());
     }
@@ -131,5 +131,4 @@ public class QueueCauseTest {
         Date actualExitTime = queueCause.getExitTime();
         assertEquals(expectedExitTime, actualExitTime);
     }
-
 }

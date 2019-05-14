@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 
 public class SoutTaskListener implements TaskListener {
+
     private static PrintWriter soutWriter = new PrintWriter(System.out);
 
     public static final SoutTaskListener INSTANCE = new SoutTaskListener();

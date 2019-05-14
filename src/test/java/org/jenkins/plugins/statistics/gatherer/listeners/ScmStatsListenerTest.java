@@ -2,17 +2,13 @@ package org.jenkins.plugins.statistics.gatherer.listeners;
 
 import hudson.FilePath;
 import hudson.model.AbstractBuild;
-import hudson.model.BuildListener;
 import hudson.model.TaskListener;
 import hudson.remoting.VirtualChannel;
 import hudson.scm.SCM;
 import hudson.scm.SCMRevisionState;
-import hudson.tasks.BuildStep;
 import org.jenkins.plugins.statistics.gatherer.model.scm.ScmCheckoutInfo;
-import org.jenkins.plugins.statistics.gatherer.model.step.BuildStepStats;
 import org.jenkins.plugins.statistics.gatherer.util.PropertyLoader;
 import org.jenkins.plugins.statistics.gatherer.util.RestClientUtil;
-import org.jenkins.plugins.statistics.gatherer.util.SnsClientUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +22,7 @@ import java.io.File;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 
 /**
  * Created by mcharron on 2016-07-27.
@@ -38,15 +34,15 @@ public class ScmStatsListenerTest {
     private ScmStatsListener listener;
 
     @Before
-    public void setup(){
+    public void setup() {
         listener = new ScmStatsListener();
     }
 
     @Test
-    public void givenBuildAndBuildInfoTrue_whenStarted_thenPost(){
+    public void givenBuildAndBuildInfoTrue_whenStarted_thenPost() {
         PowerMockito.mockStatic(PropertyLoader.class);
         Mockito.when(PropertyLoader.getScmCheckoutInfo()).thenReturn(true);
-        Mockito.when(PropertyLoader.getScmCheckoutEndPoint()).thenReturn("");
+        Mockito.when(PropertyLoader.getScmCheckoutEndPoint()).thenReturn("http://localhost");
         AbstractBuild build = Mockito.mock(AbstractBuild.class);
         Mockito.when(build.getUrl()).thenReturn("aUrl");
         SCM scm = Mockito.mock(SCM.class);
@@ -55,21 +51,19 @@ public class ScmStatsListenerTest {
         File file = Mockito.mock(File.class);
         SCMRevisionState scmRevisionState = Mockito.mock(SCMRevisionState.class);
         PowerMockito.mockStatic(RestClientUtil.class);
-        ArgumentCaptor<ScmCheckoutInfo> scmCheckoutInfoArgumentCaptor =
-                ArgumentCaptor.forClass(ScmCheckoutInfo.class);
+        ArgumentCaptor<ScmCheckoutInfo> scmCheckoutInfoArgumentCaptor = ArgumentCaptor.forClass(ScmCheckoutInfo.class);
         listener.onCheckout(build, scm, filePath, taskListener, file, scmRevisionState);
 
-        PowerMockito.verifyStatic();
+        PowerMockito.verifyStatic(RestClientUtil.class);
         RestClientUtil.postToService(anyString(), scmCheckoutInfoArgumentCaptor.capture());
 
         ScmCheckoutInfo buildStepStats = scmCheckoutInfoArgumentCaptor.getValue();
         assertEquals("aUrl", buildStepStats.getBuildUrl());
         assertEquals(new Date(0), buildStepStats.getStartTime());
-
     }
 
     @Test
-    public void givenBuildAndBuildInfoFalse_whenStarted_thenDoNotPost(){
+    public void givenBuildAndBuildInfoFalse_whenStarted_thenDoNotPost() {
         PowerMockito.mockStatic(PropertyLoader.class);
         Mockito.when(PropertyLoader.getScmCheckoutInfo()).thenReturn(false);
         AbstractBuild build = Mockito.mock(AbstractBuild.class);
@@ -80,6 +74,6 @@ public class ScmStatsListenerTest {
         SCMRevisionState scmRevisionState = Mockito.mock(SCMRevisionState.class);
         listener.onCheckout(build, scm, filePath, taskListener, file, scmRevisionState);
         PowerMockito.mockStatic(RestClientUtil.class);
-        PowerMockito.verifyStatic(Mockito.never());
+        PowerMockito.verifyZeroInteractions(RestClientUtil.class);
     }
 }

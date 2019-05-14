@@ -11,13 +11,13 @@ public class ScmCheckoutInfo {
     private Date startTime;
     private Date endTime;
 
-    public ScmCheckoutInfo(Date startTime, Date endTime, String buildUrl){
+    public ScmCheckoutInfo(Date startTime, Date endTime, String buildUrl) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.buildUrl = buildUrl;
     }
 
-    public ScmCheckoutInfo(){
+    public ScmCheckoutInfo() {
         this.startTime = new Date(0);
         this.endTime = new Date(0);
         this.buildUrl = "";

@@ -1,24 +1,27 @@
-[![Build Status](https://travis-ci.org/jenkinsci/statistics-gatherer-plugin.svg?branch=statistics-gatherer-2.0.2)](https://travis-ci.org/jenkinsci/statistics-gatherer-plugin)   [![Coverage Status](https://coveralls.io/repos/github/jenkinsci/statistics-gatherer-plugin/badge.svg?branch=statistics-gatherer-2.0.2)](https://coveralls.io/github/jenkinsci/statistics-gatherer-plugin?branch=statistics-gatherer-2.0.2)
+[![Build Status](https://travis-ci.org/jenkinsci/statistics-gatherer-plugin.svg?branch=statistics-gatherer-2.0.2)](https://travis-ci.org/jenkinsci/statistics-gatherer-plugin)
+[![Coverage Status](https://coveralls.io/repos/github/jenkinsci/statistics-gatherer-plugin/badge.svg?branch=statistics-gatherer-2.0.2)](https://coveralls.io/github/jenkinsci/statistics-gatherer-plugin?branch=statistics-gatherer-2.0.2)
 
+Jenkins Statistics Gatherer Plugin
+==================================
 
-Jenkins Statistics gatherer Plugin
-======================================
-
-This plugin gather information on specific events on jenkins and sends them to an external API. That way, you can get the statistics that matters for your needs.
+This plugin gathers information on specific events on Jenkins and sends them to an external API. That way, you can get the statistics that matters for your needs.
 
 Issues
-==========
+======
 
-If you have an issue with this plugin, please open a ticket on [issues.jenkins-ci.org](https://issues.jenkins-ci.org/issues/?jql=component%20%3D%20statistics-gatherer-plugin) using `statistics-gatherer-plugin` component.
+If you find an issue in this plugin, please open a ticket on [issues.jenkins-ci.org](https://issues.jenkins-ci.org/issues/?jql=component%20%3D%20statistics-gatherer-plugin) using the `statistics-gatherer-plugin` component.
 
 Documentation
-==============
-In this section, you'll see which data is sent when. Please note that we do not consider adding a field to a JSON as a breaking change. However, removing one is considered as a breaking change.
+=============
+
+In this section, you'll see which data is sent when. Please note that adding a field to JSON is not considered as a breaking change. However, removing a field is considered as a breaking change.
 
 Build
--------
-At the start of a build, the following data is sent
-``` json
+-----
+
+At the start of a build:
+
+```json
 {
 	"queueTime": 29,
 	"result": "INPROGRESS",
@@ -32,7 +35,7 @@ At the start of a build, the following data is sent
 	"buildCause": "Started by anonymous",
 	"startTime": 1469453903,
 	"number": 252,
-	"startedUsername": "anonymous",
+	"startedUserName": "anonymous",
 	"jobName": "jenkins_test",
 	"slaveInfo": {
 		"slaveName": "optimusprime",
@@ -48,7 +51,8 @@ At the start of a build, the following data is sent
 }
 ```
 
-On the finalize part of a build, the following JSON is sent.
+On the finalize part of a build:
+
 ```json
 {
 	"result": "ABORTED",
@@ -58,30 +62,32 @@ On the finalize part of a build, the following JSON is sent.
 	"buildUrl": "aUrl",
 	"number": 252,
 	"jobName": "jenkins_test",
-	"duration": 9452,
+	"duration": 9452
 }
 ```
-Results can either be "SUCCESS", "ABORTED", or "FAILURE"
 
-If the Build Failure Cause plugin is installed and the build failed, it will return the following JSON:
+The field `result` can contain "INPROGRESS", "ABORTED", "SUCCESS" or "FAILURE".
+
+If the [Build Failure Analyzer](https://plugins.jenkins.io/build-failure-analyzer) plugin is installed and the build failed:
+
 ```json
 {
-    "result" : "ABORTED",
-    "endTime" : 1469453903,
-    "ciUrl" : "http://localhost:8080/jenkins/",
-    "fullJobName" : "jenkins_test",
-    "buildFailureCauses" : [
+    "result": "ABORTED",
+    "endTime": 1469453903,
+    "ciUrl": "http://localhost:8080/jenkins/",
+    "fullJobName": "jenkins_test",
+    "buildFailureCauses": [
         {
-            "name" : "aborted",
-            "categories" : [
+            "name": "aborted",
+            "categories": [
                 "aCategory"
             ],
-            "id" : "ccff5d15-1003-4570-b38f-f844255c6be1",
-            "description" : "Build was manually aborted"
+            "id": "ccff5d15-1003-4570-b38f-f844255c6be1",
+            "description": "Build was manually aborted"
         },
         {...}
     ],
-    "buildUrl" : "job/jenkins_test/252/",
+    "buildUrl": "job/jenkins_test/252/",
     "number": 252,
     "jobName": "jenkins_test",
     "duration": 9452
@@ -89,8 +95,10 @@ If the Build Failure Cause plugin is installed and the build failed, it will ret
 ```
 
 Queue
-------
-When a job enters in the queue, the following JSON will be sent:
+-----
+
+When a job enters in the queue:
+
 ```json
 {
     "entryTime": 1469455391674,
@@ -104,10 +112,12 @@ When a job enters in the queue, the following JSON will be sent:
             "type": "waiting"
         }
     ],
-    "ciUrl": "http://jenkins.localhost/",
+    "ciUrl": "http://jenkins.localhost/"
 }
 ```
-When a job enters a new state in the queue, it will send the following JSON:
+
+When a job enters a new state in the queue:
+
 ```json
 {
     "entryTime": 1469455391674,
@@ -121,11 +131,11 @@ When a job enters a new state in the queue, it will send the following JSON:
             "type": "waiting"
         }
     ],
-    "ciUrl": "http://jenkins.localhost/",
+    "ciUrl": "http://jenkins.localhost/"
 }
 ```
 
-When a job leaves a state in the queue, it will send the following JSON:
+When a job leaves a state in the queue:
 
 ```json
 {
@@ -143,11 +153,12 @@ When a job leaves a state in the queue, it will send the following JSON:
             "type": "waiting"
         }
     ],
-    "ciUrl": "http://jenkins.localhost/",
+    "ciUrl": "http://jenkins.localhost/"
 }
 ```
 
-When a job leaves the queue, the following JSON will be sent:
+When a job leaves the queue:
+
 ```json
 {
     "startedBy": "SCM",
@@ -162,12 +173,12 @@ When a job leaves the queue, the following JSON will be sent:
 }
 ```
 
-Note that the contextId can be used to link job in the queues with the corresponding build.
+Note that the `contextId` can be used to link job in the queues with the corresponding build.
 
 Project/Job
-------------
+-----------
 
-When a job is created, the following JSON will be sent:
+When a job is created:
 
 ```json
 {
@@ -181,9 +192,10 @@ When a job is created, the following JSON will be sent:
 }
 ```
 
-The configFile field is the XML corresponding to the job.
+The `configFile` field contains the job's XML configuration.
 
-When a job is updated, the following JSON will be sent:
+When a job is updated:
+
 ```json
 {
    "name": "aJob",
@@ -196,7 +208,8 @@ When a job is updated, the following JSON will be sent:
 }
 ```
 
-When a job is deleted, the following JSON will be sent:
+When a job is deleted:
+
 ```json
 {
    "name": "aJob",
@@ -209,53 +222,57 @@ When a job is deleted, the following JSON will be sent:
 }
 ```
 
-Status can be "ACTIVE", "DISABLED" or "DELETED".
-
+The field `status` can contain "ACTIVE", "DISABLED" or "DELETED".
 
 Build Steps
-------------
-On the start of a build step, the following JSON will be sent:
+-----------
+
+On the start of a build step:
 
 ```json
 {
-    "startTime" : 1469453903,
-    "endTime" : 0,
-    "buildStepType" : "hudson.tasks.Shell",
-    "buildStepId" : "hudson.tasks.Shell@1234",
+    "startTime": 1469453903,
+    "endTime": 0,
+    "buildStepType": "hudson.tasks.Shell",
+    "buildStepId": "hudson.tasks.Shell@1234",
     "buildUrl": "aUrl"
 }
 ```
 
-On the end of a build step, the following JSON will be sent:
+On the end of a build step:
+
 ```json
 {
-    "startTime" : 0,
-    "endTime" : 1469453903,
-    "buildStepType" : "hudson.tasks.Shell",
-    "buildStepId" : "hudson.tasks.Shell@1234",
+    "startTime": 0,
+    "endTime": 1469453903,
+    "buildStepType": "hudson.tasks.Shell",
+    "buildStepId": "hudson.tasks.Shell@1234",
     "buildUrl": "aUrl"
 }
 ```
-The buildStepId is unique within a given build. So you can use the buildUrl and the buildStepId to merge the information from the start and the end of the build step.
 
+The `buildStepId` is unique within a given build. So `buildUrl` and `buildStepId` can be used to merge the information from the start and the end of the build step.
 
 Scm Checkout Information
--------------------------
-At the start of the checkout, the following JSON will be sent:
+------------------------
+
+At the start of the checkout:
 
 ```json
 {
-    "startTime" : 1469453903,
-    "endTime" : 0,
-    "buildUrl" : "aUrl"
+    "startTime": 1469453903,
+    "endTime": 0,
+    "buildUrl": "aUrl"
 }
 ```
-At the end of the checkout, the following JSON will be sent:
+
+At the end of the checkout:
+
 ```json
 {
-    "startTime" : 0,
-    "endTime" : 1469453903,
-    "buildUrl" : "aUrl"
+    "startTime": 0,
+    "endTime": 1469453903,
+    "buildUrl": "aUrl"
 }
 ```
 
@@ -264,72 +281,71 @@ If the checkout fails, there will be no second JSON.
 Development
 ===========
 
-Start the local Jenkins instance:
+Start a local Jenkins instance:
 
-    mvn hpi:run
-
+```
+mvn hpi:run
+```
 
 Jenkins Plugin Maven goals
 --------------------------
 
-	hpi:create  Creates a skeleton of a new plugin.
-
-	hpi:hpi Builds the .hpi file
-
-	hpi:hpl Generates the .hpl file
-
-	hpi:run Runs Jenkins with the current plugin project
-
-	hpi:upload Posts the hpi file to java.net. Used during the release.
-
+```
+hpi:create  Creates a skeleton of a new plugin.
+hpi:hpi     Builds the .hpi file.
+hpi:hpl     Generates the .hpl file.
+hpi:run     Runs Jenkins with the current plugin project.
+hpi:upload  Posts the hpi file to java.net. Used during the release.
+```
 
 How to install
 --------------
 
-Run
+To create the plugin .hpi file:
 
-	mvn hpi:hpi
+```
+mvn hpi:hpi
+```
 
-to create the plugin .hpi file.
+To install the plugin:
 
-
-To install:
-
-1. copy the resulting ./target/statistics-gatherer.hpi file to the $JENKINS_HOME/plugins directory. Don't forget to restart Jenkins afterwards.
-
-2. or use the plugin management console (http://example.com:8080/pluginManager/advanced) to upload the hpi file. You have to restart Jenkins in order to find the plugin in the installed plugins list.
-
+1. Copy the resulting ./target/statistics-gatherer.hpi file to the $JENKINS_HOME/plugins directory. Don't forget to restart Jenkins afterwards.
+2. Or use the plugin management console (http://example.com:8080/pluginManager/advanced) to upload the hpi file. You have to restart Jenkins in order to find the plugin in the installed plugins list.
 
 Plugin releases
 ---------------
 
-	mvn release:prepare release:perform -Dusername=user -Dpassword=******
+```
+mvn release:prepare release:perform -Dusername=user -Dpassword=******
+```
 
 Changelog
---------------
-Please refer to the CHANGELOG.md file. 
+---------
 
+Please refer to the [CHANGELOG.md](CHANGELOG.md) file.
 
 License
 -------
 
-	(The MIT License)
+```
+(The MIT License)
 
-	Permission is hereby granted, free of charge, to any person obtaining
-	a copy of this software and associated documentation files (the
-	'Software'), to deal in the Software without restriction, including
-	without limitation the rights to use, copy, modify, merge, publish,
-	distribute, sublicense, and/or sell copies of the Software, and to
-	permit persons to whom the Software is furnished to do so, subject to
-	the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
-	The above copyright notice and this permission notice shall be
-	included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
 
-	THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-	IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-	CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-	TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```

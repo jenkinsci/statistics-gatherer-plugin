@@ -6,25 +6,26 @@ import java.util.Date;
  * Created by mcharron on 2016-07-12.
  */
 public class BuildStepStats {
+
     private Date startTime;
     private Date endTime;
     private String buildUrl;
     private String buildStepType;
     private String buildStepId;
 
-    public BuildStepStats(Date startTime, Date endTime, String buildUrl, String buildStepType, String buildStepId){
+    public BuildStepStats(Date startTime, Date endTime, String buildUrl, String buildStepType, String buildStepId) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.buildUrl = buildUrl;
-        this.buildStepType= buildStepType;
+        this.buildStepType = buildStepType;
         this.buildStepId = buildStepId;
     }
 
-    public BuildStepStats(){
+    public BuildStepStats() {
         this.startTime = new Date(0);
         this.endTime = new Date(0);
         this.buildUrl = "";
-        this.buildStepType= "";
+        this.buildStepType = "";
         this.buildStepId = "";
     }
 

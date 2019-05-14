@@ -8,39 +8,22 @@ import java.util.*;
 public class BuildStats {
 
     private String ciUrl;
-
     private String jobName;
-
     private String fullJobName;
-
     private int number;
-
     private SlaveInfo slaveInfo;
-
     private Date startTime;
-
     private Date endTime;
-
     private String startedUserId;
-
     private String startedUserName;
-
     private String result;
-
     private long duration;
-
     private Map<String, String> parameters;
-
     private SCMInfo scmInfo;
-
     private long queueTime;
-
     private String buildUrl;
-
     private int contextId;
-
     private String buildCause;
-
     private List<Map> buildFailureCauses;
 
     public BuildStats(String ciUrl,

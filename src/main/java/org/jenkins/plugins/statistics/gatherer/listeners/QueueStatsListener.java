@@ -22,8 +22,8 @@ import java.util.logging.Logger;
  */
 @Extension(dynamicLoadable = YesNoMaybe.YES)
 public class QueueStatsListener extends QueueListener {
-    private static final Logger LOGGER = Logger.getLogger(
-            QueueStatsListener.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(QueueStatsListener.class.getName());
 
     public QueueStatsListener() {
         //Necessary for jenkins
@@ -49,14 +49,13 @@ public class QueueStatsListener extends QueueListener {
         }
     }
 
-    private void logExceptionWaiting(WaitingItem waitingItemi, Exception e) {
+    private void logExceptionWaiting(WaitingItem waitingItem, Exception e) {
         LOGGER.log(Level.WARNING, "Failed to add Queue info for " +
-                "job " + waitingItemi.task.getFullDisplayName() +
-                " with queue id " + waitingItemi.getId() + " using " + getRestUrl(), e);
+                "job " + waitingItem.task.getFullDisplayName() +
+                " with queue id " + waitingItem.getId() + " using " + getRestUrl(), e);
     }
 
-    private void addEntryQueueCause(String type, Item item,
-                                    QueueStats queue) {
+    private void addEntryQueueCause(String type, Item item, QueueStats queue) {
         QueueCause cause = new QueueCause();
         cause.setType(type);
         cause.setEntryTime(new Date());
@@ -183,9 +182,7 @@ public class QueueStatsListener extends QueueListener {
 
     private QueueStats getCiQueue(Item item) {
         QueueStats queue = new QueueStats();
-        String ciUrl = Jenkins.getInstance() != null
-                ? Jenkins.getInstance().getRootUrl()
-                : "";
+        String ciUrl = Jenkins.getInstance().getRootUrl();
         queue.setCiUrl(ciUrl);
         queue.setJobName(item.task.getFullDisplayName());
         queue.setJenkinsQueueId((int) item.getId());
@@ -207,7 +204,6 @@ public class QueueStatsListener extends QueueListener {
             }
         }
     }
-
 
     @Override
     public void onLeft(LeftItem leftItem) {

@@ -6,14 +6,10 @@ package org.jenkins.plugins.statistics.gatherer.model.build;
 public class SCMInfo {
 
     private String url;
-
     private String branch;
-
     private String commit;
 
-    public SCMInfo(String url,
-                   String branch,
-                   String commit) {
+    public SCMInfo(String url, String branch, String commit) {
         this.url = url;
         this.branch = branch;
         this.commit = commit;
@@ -48,5 +44,4 @@ public class SCMInfo {
     public void setCommit(String commit) {
         this.commit = commit;
     }
-
 }

@@ -3,6 +3,7 @@ package org.jenkins.plugins.statistics.gatherer.model.build;
 import org.jenkins.plugins.statistics.gatherer.model.build.SCMInfo;
 import org.junit.Test;
 import org.junit.Before;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -17,9 +18,7 @@ public class SCMInfoTest {
 
     @Before
     public void initBaseObject() {
-        scmInfo = new SCMInfo(URL,
-                BRANCH,
-                COMMIT);
+        scmInfo = new SCMInfo(URL, BRANCH, COMMIT);
     }
 
     @Test
@@ -90,5 +89,4 @@ public class SCMInfoTest {
         String actualCommit = scmInfo.getCommit();
         assertEquals(expectedCommit, actualCommit);
     }
-
 }

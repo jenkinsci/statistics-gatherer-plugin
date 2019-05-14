@@ -18,9 +18,7 @@ public class SlaveInfoTest {
 
     @Before
     public void initBaseObject() {
-        slaveInfo = new SlaveInfo(SLAVE_NAME,
-                EXECUTOR,
-                LABEL);
+        slaveInfo = new SlaveInfo(SLAVE_NAME, EXECUTOR, LABEL);
     }
 
     @Test

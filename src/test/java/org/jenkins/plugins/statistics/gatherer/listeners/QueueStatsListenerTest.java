@@ -1,8 +1,8 @@
 package org.jenkins.plugins.statistics.gatherer.listeners;
 
 import hudson.model.Action;
+import hudson.model.LoadBalancer;
 import hudson.model.Queue;
-import org.jenkins.plugins.statistics.gatherer.model.build.BuildStats;
 import org.jenkins.plugins.statistics.gatherer.model.queue.QueueStats;
 import org.jenkins.plugins.statistics.gatherer.util.LogbackUtil;
 import org.jenkins.plugins.statistics.gatherer.util.PropertyLoader;
@@ -26,7 +26,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -43,16 +43,96 @@ public class QueueStatsListenerTest {
     private QueueStatsListener listener;
 
     @Before
-    public void setup(){
+    public void setup() {
         listener = new QueueStatsListener();
+        mockStatic(PropertyLoader.class);
     }
 
     @Test
-    public void givenOnLeftNoOutcome_thenPost() throws IOException {
-        mockStatic(RestClientUtil.class);
-        mockStatic(PropertyLoader.class);
-        when(PropertyLoader.getQueueInfo()).thenReturn(true);
-        when(PropertyLoader.getQueueEndPoint()).thenReturn("http://localhost");
+    public void givenOnEnterWaiting_thenPost() throws IOException {
+        mockRestClientUtil();
+
+        Queue.Task project = j.createFreeStyleProject("test");
+        List<Action> actions = Collections.emptyList();
+        Queue.WaitingItem waitingItem = new Queue.WaitingItem(Calendar.getInstance(), project, actions);
+
+        listener.onEnterWaiting(waitingItem);
+
+        verifyRestClientCall(project);
+    }
+
+    @Test
+    public void givenOnLeaveWaiting_thenPost() throws IOException {
+        mockRestClientUtil();
+
+        Queue.Task project = j.createFreeStyleProject("test");
+        List<Action> actions = Collections.emptyList();
+        Queue.WaitingItem waitingItem = new Queue.WaitingItem(Calendar.getInstance(), project, actions);
+
+        listener.onLeaveWaiting(waitingItem);
+
+        verifyRestClientCall(project);
+    }
+
+    @Test
+    public void givenOnEnterBlocked_thenPost() throws IOException {
+        mockRestClientUtil();
+
+        Queue.Task project = j.createFreeStyleProject("test");
+        List<Action> actions = Collections.emptyList();
+        Queue.WaitingItem item = new Queue.WaitingItem(Calendar.getInstance(), project, actions);
+        Queue.BlockedItem blockedItem = new Queue(LoadBalancer.CONSISTENT_HASH).new BlockedItem(item);
+
+        listener.onEnterBlocked(blockedItem);
+
+        verifyRestClientCall(project);
+    }
+
+    @Test
+    public void givenOnLeaveBlocked_thenPost() throws IOException {
+        mockRestClientUtil();
+
+        Queue.Task project = j.createFreeStyleProject("test");
+        List<Action> actions = Collections.emptyList();
+        Queue.WaitingItem item = new Queue.WaitingItem(Calendar.getInstance(), project, actions);
+        Queue.BlockedItem blockedItem = new Queue(LoadBalancer.CONSISTENT_HASH).new BlockedItem(item);
+
+        listener.onLeaveBlocked(blockedItem);
+
+        verifyRestClientCall(project);
+    }
+
+    @Test
+    public void givenOnEnterBuildable_thenPost() throws IOException {
+        mockRestClientUtil();
+
+        Queue.Task project = j.createFreeStyleProject("test");
+        List<Action> actions = Collections.emptyList();
+        Queue.WaitingItem item = new Queue.WaitingItem(Calendar.getInstance(), project, actions);
+        Queue.BuildableItem buildableItem = new Queue.BuildableItem(item);
+
+        listener.onLeaveBuildable(buildableItem);
+
+        verifyRestClientCall(project);
+    }
+
+    @Test
+    public void givenOnLeaveBuildable_thenPost() throws IOException {
+        mockRestClientUtil();
+
+        Queue.Task project = j.createFreeStyleProject("test");
+        List<Action> actions = Collections.emptyList();
+        Queue.WaitingItem item = new Queue.WaitingItem(Calendar.getInstance(), project, actions);
+        Queue.BuildableItem buildableItem = new Queue.BuildableItem(item);
+
+        listener.onLeaveBuildable(buildableItem);
+
+        verifyRestClientCall(project);
+    }
+
+    @Test
+    public void givenOnLeft_thenPost() throws IOException {
+        mockRestClientUtil();
 
         Queue.Task project = j.createFreeStyleProject("test");
         List<Action> actions = Collections.emptyList();
@@ -61,12 +141,21 @@ public class QueueStatsListenerTest {
 
         listener.onLeft(leftItem);
 
+        verifyRestClientCall(project);
+    }
+
+    private void mockRestClientUtil() {
+        mockStatic(RestClientUtil.class);
+        when(PropertyLoader.getQueueInfo()).thenReturn(true);
+        when(PropertyLoader.getQueueEndPoint()).thenReturn("http://localhost");
+    }
+
+    private void verifyRestClientCall(Queue.Task project) {
         verifyStatic(RestClientUtil.class, times(1));
-        ArgumentCaptor<QueueStats> captor =
-                ArgumentCaptor.forClass(QueueStats.class);
+        ArgumentCaptor<QueueStats> captor = ArgumentCaptor.forClass(QueueStats.class);
         RestClientUtil.postToService(anyString(), captor.capture());
         QueueStats queueStats = captor.getAllValues().get(0);
 
-        assertThat(queueStats.getContextId(), is(equalTo(0)));
+        assertThat(queueStats.getJobName(), is(equalTo(project.getName())));
     }
 }

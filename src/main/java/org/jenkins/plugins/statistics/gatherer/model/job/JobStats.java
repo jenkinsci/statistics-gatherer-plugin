@@ -8,21 +8,13 @@ import java.util.Date;
 public class JobStats {
 
     private String name;
-
     private Date createdDate;
-
     private String userId;
-
     private String userName;
-
     private String ciUrl;
-
     private Date updatedDate;
-
     private String status;
-
     private String configFile;
-
     private String jobUrl;
 
     public JobStats(String name,

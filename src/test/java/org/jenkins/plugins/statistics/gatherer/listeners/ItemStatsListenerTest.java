@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -29,6 +29,7 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 @PrepareForTest({PropertyLoader.class, RestClientUtil.class, LogbackUtil.class})
 @PowerMockIgnore({"javax.crypto.*"})
 public class ItemStatsListenerTest {
+
     @Rule
     public JenkinsRule jenkinsRule = new JenkinsRule();
 
@@ -41,15 +42,15 @@ public class ItemStatsListenerTest {
     }
 
     @Test
-    public void whenItemCredated_thenPost() throws Exception {
+    public void whenItemCreated_thenPost() throws Exception {
         mockStatic(RestClientUtil.class);
         when(PropertyLoader.getProjectInfo()).thenReturn(true);
+        when(PropertyLoader.getProjectEndPoint()).thenReturn("http://localhost");
 
         FreeStyleProject project = jenkinsRule.createFreeStyleProject();
 
-        verifyStatic();
-        ArgumentCaptor<JobStats> captor =
-                ArgumentCaptor.forClass(JobStats.class);
+        verifyStatic(RestClientUtil.class);
+        ArgumentCaptor<JobStats> captor = ArgumentCaptor.forClass(JobStats.class);
         RestClientUtil.postToService(anyString(), captor.capture());
         JobStats jobStats = captor.getValue();
 
@@ -62,13 +63,13 @@ public class ItemStatsListenerTest {
     public void whenItemDeleted_thenPost() throws Exception {
         mockStatic(RestClientUtil.class);
         when(PropertyLoader.getProjectInfo()).thenReturn(true);
+        when(PropertyLoader.getProjectEndPoint()).thenReturn("http://localhost");
 
         FreeStyleProject project = jenkinsRule.createFreeStyleProject();
         project.delete();
 
-        verifyStatic(times(3));
-        ArgumentCaptor<JobStats> captor =
-                ArgumentCaptor.forClass(JobStats.class);
+        verifyStatic(RestClientUtil.class, times(3));
+        ArgumentCaptor<JobStats> captor = ArgumentCaptor.forClass(JobStats.class);
         RestClientUtil.postToService(anyString(), captor.capture());
         List<JobStats> jobStats = captor.getAllValues();
 
