@@ -89,7 +89,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Test dependancies -->
+        <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

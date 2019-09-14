@@ -23,7 +23,7 @@ All notable changes to this project will be documented in this file.
 
 - Luca Milanesio started as additional maintainer
 - [JENKINS-43440](https://issues.jenkins-ci.org/browse/JENKINS-43440) Support for pipeline jobs
-- Do not send events to HTTP endspoint by default
+- Do not send events to HTTP endpoint by default
 - Use blank URLs as defaults for endpoints
 - Fails gracefully when HTTP notification fails
 - docs: corrected link to component bugs
@@ -40,10 +40,9 @@ All notable changes to this project will be documented in this file.
 
 ## 1.1.0 - 2017-01-12
 
-- Add functionnality to publish on AWS SNS. 
+- Add functionality to publish on AWS SNS.
 - Update readme to expose Changelog.
 - Better unit test coverage
-
 
 ## 1.0.1 - 2016-07-26
 

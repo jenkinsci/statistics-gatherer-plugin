@@ -41,7 +41,7 @@ public class ItemStatsListenerTest {
     }
 
     @Test
-    public void whenItemCredated_thenPost() throws Exception {
+    public void whenItemCreated_thenPost() throws Exception {
         mockStatic(RestClientUtil.class);
         when(PropertyLoader.getProjectInfo()).thenReturn(true);
 

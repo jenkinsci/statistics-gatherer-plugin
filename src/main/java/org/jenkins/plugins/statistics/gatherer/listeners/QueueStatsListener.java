@@ -49,10 +49,10 @@ public class QueueStatsListener extends QueueListener {
         }
     }
 
-    private void logExceptionWaiting(WaitingItem waitingItemi, Exception e) {
+    private void logExceptionWaiting(WaitingItem waitingItem, Exception e) {
         LOGGER.log(Level.WARNING, "Failed to add Queue info for " +
-                "job " + waitingItemi.task.getFullDisplayName() +
-                " with queue id " + waitingItemi.getId() + " using " + getRestUrl(), e);
+                "job " + waitingItem.task.getFullDisplayName() +
+                " with queue id " + waitingItem.getId() + " using " + getRestUrl(), e);
     }
 
     private void addEntryQueueCause(String type, Item item,
