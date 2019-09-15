@@ -54,6 +54,7 @@
         <jenkins.version>2.60.1</jenkins.version>
         <java.level>8</java.level>
         <powermock.version>1.7.4</powermock.version>
+        <findbugs.failOnError>false</findbugs.failOnError>
     </properties>
 
     <dependencyManagement>
@@ -148,13 +149,6 @@
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>4.2.0</version>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

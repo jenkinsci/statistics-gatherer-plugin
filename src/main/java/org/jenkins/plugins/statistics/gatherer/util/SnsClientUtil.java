@@ -15,16 +15,18 @@ import java.util.logging.Logger;
  */
 public class SnsClientUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(AmazonSNSAsyncClient.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SnsClientUtil.class.getName());
     private static AmazonSNSAsyncClient snsClient;
 
     public static AmazonSNSAsyncClient getSnsClient() {
         if (snsClient == null) {
             BasicAWSCredentials awsCredentials = new BasicAWSCredentials(PropertyLoader.getAwsAccessKey(), PropertyLoader.getAwsSecretKey());
-            snsClient = new AmazonSNSAsyncClient(awsCredentials);
+            AmazonSNSAsyncClient snsClient = new AmazonSNSAsyncClient(awsCredentials);
 
             Region snsRegion = RegionUtils.getRegion(PropertyLoader.getAwsRegion());
             snsClient.setRegion(snsRegion);
+
+            SnsClientUtil.snsClient = snsClient;
         }
 
         return snsClient;

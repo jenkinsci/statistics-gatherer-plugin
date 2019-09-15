@@ -14,8 +14,8 @@ import java.util.logging.Logger;
  */
 public class JSONUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(
-            RestClientUtil.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(JSONUtil.class.getName());
+
     protected JSONUtil() {
         throw new IllegalAccessError("Utility class");
     }
