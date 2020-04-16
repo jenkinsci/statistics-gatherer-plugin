@@ -3,10 +3,11 @@ package org.jenkins.plugins.statistics.gatherer.util;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import okhttp3.*;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,28 +24,28 @@ public class RestClientUtil {
 
     public static void postToService(final String url, Object object) {
         if (PropertyLoader.getShouldSendApiHttpRequests()) {
+
             try {
-                String jsonToPost = JSONUtil.convertToJson(object);
-                Unirest.post(url)
-                        .header(ACCEPT, APPLICATION_JSON)
-                        .header(CONTENT_TYPE, APPLICATION_JSON)
-                        .body(jsonToPost)
-                        .asJsonAsync(new Callback<JsonNode>() {
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .addHeader(ACCEPT, APPLICATION_JSON)
+                        .addHeader(CONTENT_TYPE, APPLICATION_JSON)
+                        .url(url)
+                        .post(RequestBody.create(MediaType.parse(APPLICATION_JSON), JSONUtil.convertToJson(object)))
+                        .build();
 
-                            public void failed(UnirestException e) {
-                                LOGGER.log(Level.WARNING, "The request for url " + url + " has failed.", e);
-                            }
+                client.newCall(request).enqueue(new okhttp3.Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        LOGGER.log(Level.WARNING, "The request for url " + url + " has failed.", e);
+                    }
 
-                            public void completed(HttpResponse<JsonNode> response) {
-                                int responseCode = response.getStatus();
-                                LOGGER.log(Level.INFO, "The request for url " + url + " completed with status " + responseCode);
-                            }
-
-                            public void cancelled() {
-                                LOGGER.log(Level.INFO, "The request for url " + url + " has been cancelled");
-                            }
-
-                        });
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        int responseCode = response.code();
+                        LOGGER.log(Level.INFO, "The request for url " + url + " completed with status " + responseCode);
+                    }
+                });
             } catch (Throwable e) {
                 LOGGER.log(Level.WARNING, "Unable to post event to url " + url, e);
             }
