@@ -166,6 +166,15 @@ public class PropertyLoader {
         return snsTopicArn == null ? "" : snsTopicArn;
     }
 
+    public static String getSqsQueueURL() {
+        String sqsURL = StatisticsConfiguration.get().getSqsURL();
+        if (sqsURL != null && !sqsURL.isEmpty()) {
+            return sqsURL;
+        }
+        sqsURL = getEnvironmentProperty("statistics.endpoint.snsQueueURL");
+        return sqsURL == null ? "" : sqsURL;
+    }
+
     public static Boolean getQueueInfo() {
         Boolean queueInfo = StatisticsConfiguration.get().getQueueInfo();
         if (queueInfo != null) {
@@ -221,6 +230,14 @@ public class PropertyLoader {
             return shouldPublishToAwsSnsQueue;
         }
         return isTrue(getEnvironmentProperty("statistics.endpoint.shouldPublishToAwsSnsQueue"));
+    }
+
+    public static Boolean getShouldPublishToAwsSqsQueue() {
+        Boolean shouldPublishToAwsSqsQueue = StatisticsConfiguration.get().getShouldPublishToAwsSqsQueue();
+        if (shouldPublishToAwsSqsQueue != null) {
+            return shouldPublishToAwsSqsQueue;
+        }
+        return isTrue(getEnvironmentProperty("statistics.endpoint.shouldPublishToAwsSqsQueue"));
     }
 
     public static boolean getShouldSendToLogback() {

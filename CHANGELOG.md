@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.0.5 - 2020-05-08
+
+- Add functionnality to publish on AWS SQS.
+
+## 2.0.4 - 2020-04-03
+
+- Add functionnality to publish on AWS SNS.
+
 ## 2.0.3 - 2018-05-11
 
 - [JENKINS-51266](https://issues.jenkins-ci.org/browse/JENKINS-51266) Flag the plugin as dynamically-loadable

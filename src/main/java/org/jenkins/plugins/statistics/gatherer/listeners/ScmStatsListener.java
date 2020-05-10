@@ -10,10 +10,7 @@ import hudson.scm.SCM;
 import hudson.scm.SCMRevisionState;
 import jenkins.YesNoMaybe;
 import org.jenkins.plugins.statistics.gatherer.model.scm.ScmCheckoutInfo;
-import org.jenkins.plugins.statistics.gatherer.util.LogbackUtil;
-import org.jenkins.plugins.statistics.gatherer.util.PropertyLoader;
-import org.jenkins.plugins.statistics.gatherer.util.RestClientUtil;
-import org.jenkins.plugins.statistics.gatherer.util.SnsClientUtil;
+import org.jenkins.plugins.statistics.gatherer.util.*;
 
 import java.io.File;
 import java.util.Calendar;
@@ -37,6 +34,7 @@ public class ScmStatsListener extends SCMListener{
             scmCheckoutInfo.setEndTime(Calendar.getInstance().getTime());
             RestClientUtil.postToService(getUrl(), scmCheckoutInfo);
             SnsClientUtil.publishToSns(scmCheckoutInfo);
+            SqsClientUtil.publishToSqs(scmCheckoutInfo);
             LogbackUtil.info(scmCheckoutInfo);
         }
     }
