@@ -1,4 +1,0 @@
-* TODO Hola mundo
-* WAITING Adios mundo
-*
-* TODO Hola

@@ -43,13 +43,3 @@ public class SqsClientUtil {
         }
     }
 }
-/*
-public void onError(Exception e) {
-    LOGGER.log(Level.WARNING, e.getMessage(), e);
-}
-
-@Override
-public void onSuccess(PublishRequest request, PublishResult publishResult) {
-    LOGGER.log(Level.INFO, "Message ID: " + publishResult.getMessageId() + " successfully published");
-}
-*/
