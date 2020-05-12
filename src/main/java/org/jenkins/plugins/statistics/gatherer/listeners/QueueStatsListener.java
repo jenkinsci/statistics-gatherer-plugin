@@ -75,6 +75,7 @@ public class QueueStatsListener extends QueueListener {
                 }
                 RestClientUtil.postToService(getRestUrl(), queue);
                 SnsClientUtil.publishToSns(queue);
+                SqsClientUtil.publishToSqs(queue);
                 LogbackUtil.info(queue);
             } catch (Exception e) {
                 logExceptionWaiting(waitingItem, e);
@@ -107,6 +108,7 @@ public class QueueStatsListener extends QueueListener {
                 }
                 RestClientUtil.postToService(getRestUrl(), queue);
                 SnsClientUtil.publishToSns(queue);
+                SqsClientUtil.publishToSqs(queue);
             } catch (Exception e) {
                 logExceptionBlocked(blockedItem, e);
             }
@@ -130,6 +132,7 @@ public class QueueStatsListener extends QueueListener {
 
                 RestClientUtil.postToService(getRestUrl(), queue);
                 SnsClientUtil.publishToSns(queue);
+                SqsClientUtil.publishToSqs(queue);
                 LogbackUtil.info(queue);
             } catch (Exception e) {
                 logExceptionBlocked(blockedItem, e);
@@ -147,6 +150,7 @@ public class QueueStatsListener extends QueueListener {
                 }
                 RestClientUtil.postToService(getRestUrl(), queue);
                 SnsClientUtil.publishToSns(queue);
+                SqsClientUtil.publishToSqs(queue);
                 LogbackUtil.info(queue);
             } catch (Exception e) {
                 logExceptionLeave(buildableItem, e);
@@ -164,6 +168,7 @@ public class QueueStatsListener extends QueueListener {
                 }
                 RestClientUtil.postToService(getRestUrl(), queue);
                 SnsClientUtil.publishToSns(queue);
+                SqsClientUtil.publishToSqs(queue);
                 LogbackUtil.info(queue);
             } catch (Exception e) {
                 logExceptionLeave(buildableItem, e);
@@ -223,6 +228,7 @@ public class QueueStatsListener extends QueueListener {
                 }
                 RestClientUtil.postToService(getRestUrl(), queue);
                 SnsClientUtil.publishToSns(queue);
+                SqsClientUtil.publishToSqs(queue);
                 LogbackUtil.info(queue);
             } catch (Exception e) {
                 logExceptionLeft(leftItem, e);

@@ -27,6 +27,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     private String awsAccessKey;
     private String awsSecretKey;
     private String snsTopicArn;
+    private String sqsURL;
     private String logbackConfigXmlUrl;
 
     private Boolean queueInfo;
@@ -36,6 +37,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     private Boolean buildStepInfo;
     private Boolean shouldSendApiHttpRequests;
     private Boolean shouldPublishToAwsSnsQueue;
+    private Boolean shouldPublishToAwsSqsQueue;
 
     private Boolean shouldSendToLogback;
 
@@ -159,6 +161,12 @@ public class StatisticsConfiguration extends GlobalConfiguration {
     }
 
     public String getSnsTopicArn() { return snsTopicArn; }
+    public String getSqsURL() { return sqsURL; }
+
+    public void setSqsURL(String sqsURL) {
+        this.sqsURL = sqsURL;
+        save();
+    }
 
     public void setSnsTopicArn(String snsTopicArn) {
         this.snsTopicArn = snsTopicArn;
@@ -176,6 +184,13 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     public void setShouldPublishToAwsSnsQueue(Boolean shouldPublishToAwsSnsQueue) {
         this.shouldPublishToAwsSnsQueue = shouldPublishToAwsSnsQueue;
+        save();
+    }
+
+    public Boolean getShouldPublishToAwsSqsQueue() { return shouldPublishToAwsSqsQueue; }
+
+    public void setShouldPublishToAwsSqsQueue(Boolean shouldPublishToAwsSqsQueue) {
+        this.shouldPublishToAwsSqsQueue = shouldPublishToAwsSqsQueue;
         save();
     }
 
@@ -204,6 +219,15 @@ public class StatisticsConfiguration extends GlobalConfiguration {
         }
         if (validateProtocolUsed(queueUrl))
             return FormValidation.error(PROTOCOL_ERROR_MESSAGE);
+        return FormValidation.ok();
+    }
+
+    public FormValidation doCheckSqsQueueUrl(
+            @QueryParameter("sqsURL") final String sqsURL) {
+        if (sqsURL == null || sqsURL.isEmpty()) {
+            return FormValidation.error("Provide valid SQS Queue URL. " +
+                    "For ex: \"http://ci.mycompany.com/api/queues\"");
+        }
         return FormValidation.ok();
     }
 
@@ -256,6 +280,14 @@ public class StatisticsConfiguration extends GlobalConfiguration {
         return FormValidation.ok();
     }
 
+    public FormValidation doCheckSQSQueueInfo(
+            @QueryParameter("SQSqueueInfo") final Boolean queueInfo) {
+        if (queueInfo == null) {
+            return FormValidation.error("Provide valid SQSQueue Info. ");
+        }
+        return FormValidation.ok();
+    }
+
     public FormValidation doCheckProjectInfo(
             @QueryParameter("projectInfo") final Boolean projectInfo) {
         if (projectInfo == null) {
@@ -282,7 +314,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     public FormValidation doCheckAwsRegion(
         @QueryParameter("awsRegion") final String awsRegion) {
-        if (shouldPublishToAwsSnsQueue == null ||shouldPublishToAwsSnsQueue ) {
+        /*if (shouldPublishToAwsSnsQueue == null ||shouldPublishToAwsSnsQueue ) {
             if (awsRegion == null) {
                 return FormValidation.error("AWS Region required. ");
             }
@@ -291,7 +323,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
             if (r == null || !r.isServiceSupported("sns")) {
                 return FormValidation.error("Please enter a valid SNS AWS region. ");
             }
-        }
+        }*/
 
         return FormValidation.ok();
     }

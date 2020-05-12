@@ -117,6 +117,7 @@ public class ItemStatsListener extends ItemListener {
                 setConfig(project, ciJob);
                 RestClientUtil.postToService(getRestUrl(), ciJob);
                 SnsClientUtil.publishToSns(ciJob);
+                SqsClientUtil.publishToSqs(ciJob);
                 LogbackUtil.info(ciJob);
             } catch (Exception e) {
                 logException(item, e);
@@ -134,6 +135,7 @@ public class ItemStatsListener extends ItemListener {
                 ciJob.setStatus(Constants.DELETED);
                 RestClientUtil.postToService(getRestUrl(), ciJob);
                 SnsClientUtil.publishToSns(ciJob);
+                SqsClientUtil.publishToSqs(ciJob);
                 LogbackUtil.info(ciJob);
             } catch (Exception e) {
                 logException(item, e);

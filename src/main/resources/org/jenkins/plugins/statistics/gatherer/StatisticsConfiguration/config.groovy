@@ -41,6 +41,10 @@ f.section(title:_("Statistics Gatherer")) {
             f.checkbox(default: instance.shouldPublishToAwsSnsQueue == null ? false : instance.shouldPublishToAwsSnsQueue.equals(true));
         }
 
+        f.entry(title:_("Publish to Amazon SQS Queue"), field:"shouldPublishToAwsSqsQueue") {
+            f.checkbox(default: instance.shouldPublishToAwsSqsQueue == null ? false : instance.shouldPublishToAwsSqsQueue.equals(true));
+        }
+
         f.entry(title:_("AWS Access Key"), field:"awsAccessKey") {
             f.textbox()
         }
@@ -50,6 +54,10 @@ f.section(title:_("Statistics Gatherer")) {
         }
 
         f.entry(title:_("SNS Topic ARN"), field:"snsTopicArn") {
+            f.textbox()
+        }
+
+        f.entry(title:_("SQS URL"), field:"sqsURL") {
             f.textbox()
         }
 
