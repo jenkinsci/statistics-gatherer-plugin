@@ -183,6 +183,14 @@ public class PropertyLoader {
         return isTrue(getEnvironmentProperty("statistics.endpoint.buildInfo"));
     }
 
+    public static Boolean getFailureCauseInfo() {
+        Boolean failureCauseInfo = StatisticsConfiguration.get().getFailureCauseInfo();
+        if (failureCauseInfo != null) {
+            return failureCauseInfo;
+        }
+        return isTrue(getEnvironmentProperty("statistics.endpoint.failureCauseInfo"));
+    }
+
     public static Boolean getProjectInfo() {
         Boolean projectInfo = StatisticsConfiguration.get().getProjectInfo();
         if (projectInfo != null) {

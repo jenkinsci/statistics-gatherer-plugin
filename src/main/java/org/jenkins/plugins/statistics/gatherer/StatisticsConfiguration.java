@@ -31,6 +31,7 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     private Boolean queueInfo;
     private Boolean buildInfo;
+    private Boolean failureCauseInfo;
     private Boolean projectInfo;
     private Boolean scmCheckoutInfo;
     private Boolean buildStepInfo;
@@ -66,6 +67,15 @@ public class StatisticsConfiguration extends GlobalConfiguration {
 
     public void setBuildInfo(Boolean buildInfo) {
         this.buildInfo = buildInfo;
+        save();
+    }
+
+    public Boolean getFailureCauseInfo() {
+        return failureCauseInfo;
+    }
+
+    public void setFailureCauseInfo(Boolean failureCauseInfo) {
+        this.failureCauseInfo = failureCauseInfo;
         save();
     }
 
@@ -244,6 +254,14 @@ public class StatisticsConfiguration extends GlobalConfiguration {
             @QueryParameter("buildInfo") final Boolean buildInfo) {
         if (buildInfo == null) {
             return FormValidation.error("Provide valid Build Info. ");
+        }
+        return FormValidation.ok();
+    }
+
+    public FormValidation doCheckFailureCauseInfo(
+            @QueryParameter("failureCauseInfo") final Boolean failureCauseInfo) {
+        if (failureCauseInfo == null) {
+            return FormValidation.error("Provide valid Failure Cause Info. ");
         }
         return FormValidation.ok();
     }

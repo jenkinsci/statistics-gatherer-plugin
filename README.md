@@ -87,6 +87,18 @@ If the Build Failure Cause plugin is installed and the build failed, it will ret
     "duration": 9452
 }
 ```
+### Additional notes
+If [Build Failure Analyzer plugin](https://plugins.jenkins.io/build-failure-analyzer/) is installed, the plugin also tryies to enreach information
+and sends API requests to jenkins to find the failure cause. However that API request requires Jenkins overall read permission and will fail
+if it's not granted. If you see exception like:
+```
+WARNING o.j.p.s.g.util.RestClientUtil#getJson: Json call have failed
+org.json.JSONException: A JSONArray text must start with '[' at 1 [character 2 line 1]
+        at org.json.JSONTokener.syntaxError(JSONTokener.java:433)
+        at org.json.JSONArray.<init>(JSONArray.java:106)
+        at org.json.JSONArray.<init>(JSONArray.java:145)
+```
+try to disable *Send Failure Cause Info* in configuration.
 
 Queue
 ------
