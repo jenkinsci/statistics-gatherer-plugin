@@ -1,6 +1,7 @@
 package org.jenkins.plugins.statistics.gatherer.model.job;
 
 import java.util.Date;
+import java.net.URI;
 
 /**
  * Created by hthakkallapally on 3/16/2015.
@@ -127,5 +128,20 @@ public class JobStats {
 
     public void setJobUrl(String jobUrl) {
         this.jobUrl = jobUrl;
+    }
+
+    // short_message field is required for GELF format support
+    public String getShort_message() {
+        return String.format("jobStat: %s %s", name, status);
+    }
+
+    // host field is required for GELF format support
+    public String getHost() {
+        try {
+            URI uri = new URI(ciUrl);
+            return uri.getHost();
+        } catch(Exception e) {
+            return null;
+        }
     }
 }

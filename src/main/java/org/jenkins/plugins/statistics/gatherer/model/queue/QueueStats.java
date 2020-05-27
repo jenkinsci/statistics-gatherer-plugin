@@ -3,6 +3,7 @@ package org.jenkins.plugins.statistics.gatherer.model.queue;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.net.URI;
 
 /**
  * Created by hthakkallapally on 3/16/2015.
@@ -147,5 +148,21 @@ public class QueueStats {
 
     public void setContextId(int contextId) {
         this.contextId = contextId;
+    }
+
+    // short_message field is required for GELF format support
+    public String getShort_message() {
+        return String.format("queueStat: %s in queue %s cause %s", jobName, status,
+            queueCauses.size()>0 ? queueCauses.get(0).getReasonForWaiting() : "unknown");
+    }
+
+    // host field is required for GELF format support
+    public String getHost() {
+        try {
+            URI uri = new URI(ciUrl);
+            return uri.getHost();
+        } catch(Exception e) {
+            return null;
+        }
     }
 }
