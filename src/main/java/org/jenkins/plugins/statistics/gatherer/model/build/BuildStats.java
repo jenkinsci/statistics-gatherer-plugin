@@ -187,6 +187,10 @@ public class BuildStats {
         return duration;
     }
 
+    public long getDuration_mins() {
+        return Math.round(duration/1000/60);
+    }
+
     public void setDuration(long duration) {
         this.duration = duration;
     }
