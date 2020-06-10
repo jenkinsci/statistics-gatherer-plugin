@@ -25,6 +25,9 @@ f.section(title:_("Statistics Gatherer")) {
     f.entry(title:_("Send Build Info"), field:"buildInfo") {
         f.checkbox(default: true)
     }
+    f.entry(title:_("Send Failure Cause Info"), field:"failureCauseInfo") {
+        f.checkbox(default: true)
+    }
     f.entry(title:_("Send Job Info"), field:"projectInfo") {
         f.checkbox(default: true)
     }

@@ -1,6 +1,7 @@
 package org.jenkins.plugins.statistics.gatherer.model.build;
 
 import java.util.*;
+import java.net.URI;
 
 /**
  * Created by hthakkallapally on 3/16/2015.
@@ -186,6 +187,10 @@ public class BuildStats {
         return duration;
     }
 
+    public long getDuration_mins() {
+        return Math.round(duration/1000/60);
+    }
+
     public void setDuration(long duration) {
         this.duration = duration;
     }
@@ -244,5 +249,20 @@ public class BuildStats {
 
     public void setBuildFailureCauses(List<Map> buildFailureCauses) {
         this.buildFailureCauses = buildFailureCauses;
+    }
+
+    // short_message field is required for GELF format support
+    public String getShort_message() {
+        return String.format("buildStat: %s #%d %s", fullJobName, number, result);
+    }
+
+    // host field is required for GELF format support
+    public String getHost() {
+        try {
+            URI uri = new URI(ciUrl);
+            return uri.getHost();
+        } catch(Exception e) {
+            return null;
+        }
     }
 }

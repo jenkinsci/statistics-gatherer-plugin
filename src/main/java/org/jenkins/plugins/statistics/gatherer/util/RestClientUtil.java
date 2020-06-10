@@ -60,7 +60,7 @@ public class RestClientUtil {
             return response.getBody().getObject();
         }
         catch (UnirestException e){
-            LOGGER.log(Level.WARNING, "Json call have failed in unirest.", e);
+            LOGGER.log(Level.WARNING, "Json call to url " + url + " has been failed in unirest.", e);
         }
         return null;
     }

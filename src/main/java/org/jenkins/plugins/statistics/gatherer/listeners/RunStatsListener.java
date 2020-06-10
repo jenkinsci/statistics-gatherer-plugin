@@ -240,27 +240,29 @@ public class RunStatsListener extends RunListener<Run<?, ?>> {
     }
 
     private void addBuildFailureCauses(BuildStats build) {
-        List<PluginWrapper> plugins = Jenkins.getInstance().getPluginManager().getPlugins();
-        for (PluginWrapper plugin : plugins) {
-            if (plugin.getDisplayName().contains("Build Failure Analyzer")) {
-                JSONObject response = RestClientUtil.getJson(build.getCiUrl() + build.getBuildUrl() + BUILD_FAILURE_URL_TO_APPEND);
-                if (response != null && response.has("actions")) {
-                    JSONArray actions = response.getJSONArray("actions");
-                    for (int i = 0; i < actions.length(); i++) {
-                        JSONObject failureResponse = actions.getJSONObject(i);
-                        if (!failureResponse.keySet().isEmpty()) {
-                            List<Map> failureCauses = new ArrayList<>();
-                            if (failureResponse.has("foundFailureCauses")) {
-                                for (int j = 0; j < failureResponse.getJSONArray("foundFailureCauses").length(); j++) {
-                                    JSONArray foundFailureCauses = failureResponse.getJSONArray("foundFailureCauses");
-                                    Map jsonObject = JSONUtil.convertBuildFailureToMap(foundFailureCauses.getJSONObject(j));
-                                    failureCauses.add(jsonObject);
+        if (PropertyLoader.getFailureCauseInfo()) {
+            List<PluginWrapper> plugins = Jenkins.getInstance().getPluginManager().getPlugins();
+            for (PluginWrapper plugin : plugins) {
+                if (plugin.getDisplayName().contains("Build Failure Analyzer")) {
+                    JSONObject response = RestClientUtil.getJson(build.getCiUrl() + build.getBuildUrl() + BUILD_FAILURE_URL_TO_APPEND);
+                    if (response != null && response.has("actions")) {
+                        JSONArray actions = response.getJSONArray("actions");
+                        for (int i = 0; i < actions.length(); i++) {
+                            JSONObject failureResponse = actions.getJSONObject(i);
+                            if (!failureResponse.keySet().isEmpty()) {
+                                List<Map> failureCauses = new ArrayList<>();
+                                if (failureResponse.has("foundFailureCauses")) {
+                                    for (int j = 0; j < failureResponse.getJSONArray("foundFailureCauses").length(); j++) {
+                                        JSONArray foundFailureCauses = failureResponse.getJSONArray("foundFailureCauses");
+                                        Map jsonObject = JSONUtil.convertBuildFailureToMap(foundFailureCauses.getJSONObject(j));
+                                        failureCauses.add(jsonObject);
+                                    }
                                 }
+                                build.setBuildFailureCauses(failureCauses);
                             }
-                            build.setBuildFailureCauses(failureCauses);
                         }
+                        break;
                     }
-                    break;
                 }
             }
         }
